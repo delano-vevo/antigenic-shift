@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://cfwhxwept4j61" path="res://Entities/Player/Scientist/State Machine/scientist_state_idle.gd" id="3_n5ncb"]
 [ext_resource type="Script" uid="uid://b77e12tvcljim" path="res://Entities/Player/Scientist/State Machine/scientist_state_running.gd" id="4_7udql"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ce73x"]
+radius = 7.0
+
 [sub_resource type="Animation" id="Animation_ce73x"]
 length = 0.001
 tracks/0/type = "value"
@@ -283,6 +286,7 @@ nodes/MoveStateMachine/position = Vector2(40, 80)
 node_connections = [&"output", 0, &"MoveStateMachine"]
 
 [node name="Scientist" type="CharacterBody2D" unique_id=800071096 node_paths=PackedStringArray("animation_player", "animation_tree", "state_machine")]
+collision_mask = 2
 script = ExtResource("1_kh60x")
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
@@ -296,6 +300,8 @@ hframes = 3
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=556377564]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_ce73x")
 
 [node name="ScientistStateMachine" type="Node" parent="." unique_id=2063532163 node_paths=PackedStringArray("idle_state", "running_state", "current_state", "parent")]
 script = ExtResource("2_xn4ku")

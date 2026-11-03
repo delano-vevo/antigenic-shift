@@ -13,8 +13,9 @@ script = ExtResource("1_glv2v")
 scientist = NodePath("../Scientist")
 gunner = NodePath("../Sled/Gunner")
 sled = NodePath("../Sled")
-rope_length_max = 60.0
-friction_coefficient = 200.0
+rope_length_max = 65.0
+friction_coefficient = 500.0
+sled_accel = 400.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=724756508]
 anchor_mode = 0

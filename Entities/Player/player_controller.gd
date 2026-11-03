@@ -10,12 +10,13 @@ extends Node2D
 ## Editor nodes
 @export var scientist: Entity ## The Scientist half of the player duo
 @export var gunner: Entity ## The Gunner half of the player duo
-@export var wagon_handle: Line2D ## The Line representing the wagon's "handle"
+@export var rope_handle: Line2D ## The Line representing the wagon's "handle"
 @export var sled: CharacterBody2D ## The sled upon which the gunner rests
 
 ## Editor variables
 @export var rope_length_max: float = 80.0 ## The maximum length of "slack" that the rope can provide
-@export var friction_coefficient: float = 5.0
+@export var friction_coefficient: float = 5.0 ## The "friction" amount for deceleration on the sled
+@export var sled_accel: float = 500.0 ## The acceleration factor applied to the sled
 
 ## Internal variables
 @onready var current_player: Entity = scientist ## The currently active player Entity in the scene
@@ -36,29 +37,35 @@ func _input(event: InputEvent) -> void:
 ## Game loop
 func _process(delta: float) -> void:
 	# Set the points on the wagon handle graphic
-	wagon_handle.clear_points()
-	wagon_handle.add_point(scientist.global_position)
-	wagon_handle.add_point(sled.global_position)
+	rope_handle.clear_points()
+	rope_handle.add_point(scientist.global_position)
+	rope_handle.add_point(sled.global_position)
 
 func _physics_process(delta: float) -> void:
 	# Apply the pulling physics to the gunner's cart
 	var player_dist = scientist.global_position.distance_to(sled.global_position)
 	if (player_dist >= rope_length_max):
 		# Pull towards the player
-		var cart_target_dir = sled.position.direction_to(scientist.position)
-		# Accelerate the sled in the direction specified
-		# TODO: this is causing weird snappy rotation when going from 0 - need more robust physics
-		sled.velocity += cart_target_dir * delta * 800.0 # TODO: magic number naughty naughty!
-		# Clamp movement speed at the scientist's run speed for consistency in controls and feeling
-		sled.velocity = sled.velocity.limit_length(scientist.move_speed)
+		var cart_target_dir = sled.global_position.direction_to(scientist.global_position)
+		sled.velocity = sled.velocity.move_toward(cart_target_dir * scientist.move_speed, sled_accel * delta)
 	else:
-		# Apply friction to slow the sled when the player is still
-		sled.velocity.x = move_toward(sled.velocity.x, 0, friction_coefficient * delta * abs(sled.velocity.normalized().x))
-		sled.velocity.y = move_toward(sled.velocity.y, 0, friction_coefficient * delta * abs(sled.velocity.normalized().y))
-	# Rotate the sled to face along its current velocity vector
+		sled.velocity = sled.velocity.move_toward(Vector2.ZERO, friction_coefficient * delta)
+	# Rotate the sled to face the scientist
 	if (sled.velocity != Vector2.ZERO):
-		sled.look_at(sled.position + sled.velocity)
-	#print(sled.velocity)
+		# I really prefer this move_toward solution but I have no clue how to account for the overflow lol :(
+		var targ_angle = sled.velocity.angle()
+		# Check for the fastest path to the target angle by comparing the current delta
+		# with the delta when you add or subtract 360 degrees from the target angle
+		# NOTE: yes, this would probably be cleaner and more performant to just do directly
+		# with radians, but looking at the unit circle makes me cry
+		var t_a = rad_to_deg(targ_angle)
+		var s_r = rad_to_deg(sled.rotation)
+		if (abs(t_a - s_r) > abs(t_a-360 - s_r)):
+			targ_angle -= deg_to_rad(360)
+		elif (abs(t_a - s_r) > abs(t_a+360 - s_r)):
+			targ_angle += deg_to_rad(360)
+		# Apply rotational movement to approach the previously determined optimum angle
+		sled.rotation = move_toward(sled.rotation, targ_angle, 5.0 * delta)
 	# Apply physics movement to the sled
 	sled.move_and_slide()
 	# Override the gunner's rotation every frame to keep him centered on the sled
