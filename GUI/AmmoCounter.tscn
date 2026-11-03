@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://b80qklw4og6fp"]
+
+[ext_resource type="Script" uid="uid://bkai34acna5i2" path="res://GUI/ammo_counter.gd" id="1_bg3e0"]
+[ext_resource type="Texture2D" uid="uid://dlq7m5phxeubm" path="res://GUI/Assets/bullet.png" id="2_nlnqh"]
+
+[node name="AmmoCounter" type="Control" unique_id=269784810 node_paths=PackedStringArray("amt_label")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bg3e0")
+amt_label = NodePath("HBoxContainer/AmmoCountLabel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1645804580]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 23.0
+
+[node name="AmmoIcon" type="TextureRect" parent="HBoxContainer" unique_id=887335505]
+layout_mode = 2
+texture = ExtResource("2_nlnqh")
+stretch_mode = 2
+
+[node name="AmmoCountLabel" type="Label" parent="HBoxContainer" unique_id=121558994]
+layout_mode = 2

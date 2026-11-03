@@ -1,5 +1,8 @@
 extends State
 
+## State links
+@export var reload_state: State
+
 func state_entered(parent: Entity) -> void:
 	parent.laser_line.visible = true
 
@@ -15,7 +18,7 @@ func physics_process(delta: float, parent: Entity) -> State:
 	parent.gun_sprite.scale.y = parent.body_sprite.scale.x
 	# Do the graphics for LaserSight using the ShootRay
 	parent.laser_line.clear_points()
-	parent.laser_line.add_point(parent.gun_sprite.global_position - parent.gun_sprite.global_position)
+	parent.laser_line.add_point(Vector2.ZERO)#parent.gun_sprite.global_position - parent.gun_sprite.global_position)
 	var shoot_col = parent.shoot_ray.get_collider()
 	if (shoot_col == null):
 		parent.laser_line.add_point(parent.ray_end.global_position - parent.gun_sprite.global_position)
@@ -25,5 +28,8 @@ func physics_process(delta: float, parent: Entity) -> State:
 	# Check for shooting input and process
 	if (Input.is_action_pressed("shoot")):
 		parent.try_shoot_gun()
+	# Check for reload input and process
+	if (Input.is_action_just_pressed("reload")):
+		return reload_state
 	# No exit conditions encountered - proceed w/ this state
 	return null

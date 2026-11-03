@@ -176,6 +176,7 @@ lose_range = 150.0
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 state_machine = NodePath("ZombieStateMachine")
+max_hp = 3.0
 metadata/_custom_type_script = "uid://dste134fil6fd"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2025249128]
