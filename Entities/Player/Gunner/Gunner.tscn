@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://sellsa1gwmv2"]
+
+[ext_resource type="Script" uid="uid://b2y2q2mtkekw7" path="res://Entities/Player/Gunner/gunner.gd" id="1_wshob"]
+[ext_resource type="Texture2D" uid="uid://cby83rfs7hy2q" path="res://Entities/Player/Assets/pixel_gunner.png" id="2_dmn7r"]
+[ext_resource type="Texture2D" uid="uid://dgo1fjceysf32" path="res://Entities/Player/Assets/rifle.png" id="3_wshob"]
+[ext_resource type="Script" uid="uid://6ro0y8s63tse" path="res://Entities/Player/Gunner/StateMachine/gunner_state_machine.gd" id="4_vxb2f"]
+[ext_resource type="Script" uid="uid://dhpylwkg7rqul" path="res://Entities/Player/Gunner/StateMachine/gunner_state_idle.gd" id="5_b7urb"]
+[ext_resource type="Script" uid="uid://dr8oafyl8avtr" path="res://Entities/Player/Gunner/StateMachine/gunner_state_active.gd" id="6_lbs2c"]
+[ext_resource type="Script" uid="uid://bxp4kftwcottv" path="res://Entities/Player/Gunner/StateMachine/gunner_state_reload.gd" id="7_7yvui"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_briys"]
+radius = 7.0
+height = 24.0
+
+[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "state_machine")]
+collision_mask = 3
+script = ExtResource("1_wshob")
+gun_sprite = NodePath("RifleSprite")
+body_sprite = NodePath("BodySprite")
+state_machine = NodePath("GunnerStateMachine")
+metadata/_custom_type_script = "uid://y2p1ia4w8xis"
+
+[node name="BodySprite" type="Sprite2D" parent="." unique_id=2094699562]
+texture = ExtResource("2_dmn7r")
+offset = Vector2(-0.5, -12.5)
+
+[node name="RifleSprite" type="Sprite2D" parent="." unique_id=495237489]
+z_index = 2
+position = Vector2(-1.5, -8.5)
+texture = ExtResource("3_wshob")
+offset = Vector2(9, 3)
+
+[node name="GunnerStateMachine" type="Node" parent="." unique_id=2097158008 node_paths=PackedStringArray("idle_state", "active_state", "current_state", "parent")]
+script = ExtResource("4_vxb2f")
+idle_state = NodePath("Idle")
+active_state = NodePath("Active")
+current_state = NodePath("Idle")
+parent = NodePath("..")
+
+[node name="Idle" type="Node" parent="GunnerStateMachine" unique_id=1317948993]
+script = ExtResource("5_b7urb")
+
+[node name="Active" type="Node" parent="GunnerStateMachine" unique_id=240525982]
+script = ExtResource("6_lbs2c")
+
+[node name="Reload" type="Node" parent="GunnerStateMachine" unique_id=14891436]
+script = ExtResource("7_7yvui")
+
+[node name="BodyCollider" type="CollisionShape2D" parent="." unique_id=1705142879]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_briys")
