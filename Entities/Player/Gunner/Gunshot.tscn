@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://6oxi43kdkwqm"]
+
+[ext_resource type="Script" uid="uid://bv54174l808n4" path="res://Entities/Player/Gunner/gunshot.gd" id="1_t47fl"]
+
+[sub_resource type="Gradient" id="Gradient_t47fl"]
+colors = PackedColorArray(1, 0.8415347, 0.4497832, 1, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_7wk0y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShotFXLine:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_t47fl"]
+resource_name = "fade_out"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShotFXLine:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7wk0y"]
+_data = {
+&"RESET": SubResource("Animation_7wk0y"),
+&"fade_out": SubResource("Animation_t47fl")
+}
+
+[node name="Gunshot" type="Node2D" unique_id=135096713 node_paths=PackedStringArray("shot_fx_line", "animation_player")]
+z_index = -1
+script = ExtResource("1_t47fl")
+shot_fx_line = NodePath("ShotFXLine")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="ShotFXLine" type="Line2D" parent="." unique_id=1752319030]
+width = 1.0
+gradient = SubResource("Gradient_t47fl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=984397979]
+libraries/ = SubResource("AnimationLibrary_7wk0y")

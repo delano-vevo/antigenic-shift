@@ -1,23 +1,125 @@
 [gd_scene format=3 uid="uid://sellsa1gwmv2"]
 
 [ext_resource type="Script" uid="uid://b2y2q2mtkekw7" path="res://Entities/Player/Gunner/gunner.gd" id="1_wshob"]
+[ext_resource type="PackedScene" uid="uid://6oxi43kdkwqm" path="res://Entities/Player/Gunner/Gunshot.tscn" id="2_32mri"]
 [ext_resource type="Texture2D" uid="uid://cby83rfs7hy2q" path="res://Entities/Player/Assets/pixel_gunner.png" id="2_dmn7r"]
 [ext_resource type="Texture2D" uid="uid://dgo1fjceysf32" path="res://Entities/Player/Assets/rifle.png" id="3_wshob"]
 [ext_resource type="Script" uid="uid://6ro0y8s63tse" path="res://Entities/Player/Gunner/StateMachine/gunner_state_machine.gd" id="4_vxb2f"]
 [ext_resource type="Script" uid="uid://dhpylwkg7rqul" path="res://Entities/Player/Gunner/StateMachine/gunner_state_idle.gd" id="5_b7urb"]
 [ext_resource type="Script" uid="uid://dr8oafyl8avtr" path="res://Entities/Player/Gunner/StateMachine/gunner_state_active.gd" id="6_lbs2c"]
 [ext_resource type="Script" uid="uid://bxp4kftwcottv" path="res://Entities/Player/Gunner/StateMachine/gunner_state_reload.gd" id="7_7yvui"]
+[ext_resource type="Texture2D" uid="uid://c0giomtwckmkf" path="res://GUI/Assets/reload_progress_empty.png" id="9_briys"]
+[ext_resource type="Texture2D" uid="uid://b6y0g786dout2" path="res://GUI/Assets/reload_progress_full.png" id="10_4wdjm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_briys"]
 radius = 7.0
 height = 24.0
 
-[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "state_machine")]
+[sub_resource type="Animation" id="Animation_mu8tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RifleSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RifleSprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_fuu58"]
+resource_name = "reload_end"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RifleSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.20000002),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RifleSprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.033333335, 0.20000002),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.34906584, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_4wdjm"]
+resource_name = "reload_start"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RifleSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.20000002),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RifleSprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.20000002),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.34906584]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mu8tp"]
+_data = {
+&"RESET": SubResource("Animation_mu8tp"),
+&"reload_end": SubResource("Animation_fuu58"),
+&"reload_start": SubResource("Animation_4wdjm")
+}
+
+[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "animation_player", "state_machine")]
 collision_mask = 3
 script = ExtResource("1_wshob")
+gunshot = ExtResource("2_32mri")
 gun_sprite = NodePath("RifleSprite")
 body_sprite = NodePath("BodySprite")
+shoot_ray = NodePath("RifleSprite/ShootRay")
+laser_line = NodePath("LaserSight")
+ray_end = NodePath("RifleSprite/RayEnd")
+shoot_cooldown_timer = NodePath("ShootCooldown")
+reload_timer = NodePath("ReloadTimer")
+shot_spread = 6.0
+animation_player = NodePath("AnimationPlayer")
 state_machine = NodePath("GunnerStateMachine")
+max_hp = 10.0
 metadata/_custom_type_script = "uid://y2p1ia4w8xis"
 
 [node name="BodySprite" type="Sprite2D" parent="." unique_id=2094699562]
@@ -29,6 +131,23 @@ z_index = 2
 position = Vector2(-1.5, -8.5)
 texture = ExtResource("3_wshob")
 offset = Vector2(9, 3)
+vframes = 2
+
+[node name="RayEnd" type="Node2D" parent="RifleSprite" unique_id=1781437611]
+position = Vector2(518.5, 0.5)
+
+[node name="ShootRay" type="RayCast2D" parent="RifleSprite" unique_id=1109266912]
+position = Vector2(18.5, 0.5)
+target_position = Vector2(500, 0)
+collision_mask = 7
+
+[node name="LaserSight" type="Line2D" parent="." unique_id=2109681843]
+visible = false
+z_index = -1
+position = Vector2(-1.5, -8.5)
+points = PackedVector2Array(0, 0, 500, 0)
+width = 1.0
+default_color = Color(0.8627451, 0, 0, 0.654902)
 
 [node name="GunnerStateMachine" type="Node" parent="." unique_id=2097158008 node_paths=PackedStringArray("idle_state", "active_state", "current_state", "parent")]
 script = ExtResource("4_vxb2f")
@@ -40,12 +159,34 @@ parent = NodePath("..")
 [node name="Idle" type="Node" parent="GunnerStateMachine" unique_id=1317948993]
 script = ExtResource("5_b7urb")
 
-[node name="Active" type="Node" parent="GunnerStateMachine" unique_id=240525982]
+[node name="Active" type="Node" parent="GunnerStateMachine" unique_id=240525982 node_paths=PackedStringArray("reload_state")]
 script = ExtResource("6_lbs2c")
+reload_state = NodePath("../Reload")
 
-[node name="Reload" type="Node" parent="GunnerStateMachine" unique_id=14891436]
+[node name="Reload" type="Node" parent="GunnerStateMachine" unique_id=14891436 node_paths=PackedStringArray("active_state", "reload_graphic")]
 script = ExtResource("7_7yvui")
+active_state = NodePath("../Active")
+reload_graphic = NodePath("../../ReloadProgress")
 
 [node name="BodyCollider" type="CollisionShape2D" parent="." unique_id=1705142879]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_briys")
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=392425825]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=2101362208]
+one_shot = true
+
+[node name="ReloadProgress" type="TextureProgressBar" parent="." unique_id=314077356]
+visible = false
+offset_left = 12.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = -12.0
+fill_mode = 4
+texture_under = ExtResource("9_briys")
+texture_progress = ExtResource("10_4wdjm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=524238481]
+libraries/ = SubResource("AnimationLibrary_mu8tp")

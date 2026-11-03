@@ -291,6 +291,7 @@ script = ExtResource("1_kh60x")
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 state_machine = NodePath("ScientistStateMachine")
+max_hp = 10.0
 metadata/_custom_type_script = "uid://y2p1ia4w8xis"
 
 [node name="BodySprite" type="Sprite2D" parent="." unique_id=713036713]

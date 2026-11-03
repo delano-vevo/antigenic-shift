@@ -5,9 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://dqeq6caxbijex" path="res://Entities/Player/Scientist/Scientist.tscn" id="3_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://yv6c1tgprboc" path="res://Entities/Player/Sled.tscn" id="4_fos0i"]
 [ext_resource type="PackedScene" uid="uid://sellsa1gwmv2" path="res://Entities/Player/Gunner/Gunner.tscn" id="5_fos0i"]
+[ext_resource type="PackedScene" uid="uid://cqhesercpyg1q" path="res://Entities/Enemies/BasicZombie/ZombieBasic.tscn" id="6_3dxm6"]
+[ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GUI.tscn" id="7_lgr22"]
 
-[node name="Main" type="Node2D" unique_id=835620412]
+[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui")]
 script = ExtResource("1_glv2v")
+player_controller = NodePath("PlayerController")
+gui = NodePath("GUILayer/GUI")
 
 [node name="PlayerController" parent="." unique_id=279444740 node_paths=PackedStringArray("scientist", "gunner", "sled") instance=ExtResource("2_uu6xs")]
 scientist = NodePath("../Scientist")
@@ -29,3 +33,15 @@ position = Vector2(202, 137)
 
 [node name="Gunner" parent="Sled" unique_id=1909941820 instance=ExtResource("5_fos0i")]
 position = Vector2(-33, 0)
+
+[node name="Zombie" parent="." unique_id=1721419513 instance=ExtResource("6_3dxm6")]
+position = Vector2(48, 288)
+
+[node name="Zombie2" parent="." unique_id=375825464 instance=ExtResource("6_3dxm6")]
+position = Vector2(408, 312)
+
+[node name="GUILayer" type="CanvasLayer" parent="." unique_id=359143252]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+
+[node name="GUI" parent="GUILayer" unique_id=1919894194 instance=ExtResource("7_lgr22")]

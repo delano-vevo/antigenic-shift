@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cepa6r8alwr13"]
+
+[ext_resource type="Script" uid="uid://ccunuihm8nopg" path="res://GUI/gui.gd" id="1_17ifr"]
+[ext_resource type="PackedScene" uid="uid://b80qklw4og6fp" path="res://GUI/AmmoCounter.tscn" id="2_1x7qj"]
+
+[node name="GUI" type="Control" unique_id=1919894194 node_paths=PackedStringArray("ammo_counter")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_17ifr")
+ammo_counter = NodePath("AmmoCounter")
+
+[node name="AmmoCounter" parent="." unique_id=269784810 instance=ExtResource("2_1x7qj")]
+layout_mode = 0
