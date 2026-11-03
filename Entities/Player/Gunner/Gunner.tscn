@@ -12,11 +12,16 @@
 radius = 7.0
 height = 24.0
 
-[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "state_machine")]
+[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "state_machine")]
 collision_mask = 3
 script = ExtResource("1_wshob")
 gun_sprite = NodePath("RifleSprite")
 body_sprite = NodePath("BodySprite")
+shoot_ray = NodePath("RifleSprite/ShootRay")
+laser_line = NodePath("LaserSight")
+ray_end = NodePath("RifleSprite/RayEnd")
+shoot_cooldown_timer = NodePath("ShootCooldown")
+shot_spread = 6.0
 state_machine = NodePath("GunnerStateMachine")
 metadata/_custom_type_script = "uid://y2p1ia4w8xis"
 
@@ -29,6 +34,22 @@ z_index = 2
 position = Vector2(-1.5, -8.5)
 texture = ExtResource("3_wshob")
 offset = Vector2(9, 3)
+
+[node name="RayEnd" type="Node2D" parent="RifleSprite" unique_id=1781437611]
+position = Vector2(518.5, 0.5)
+
+[node name="ShootRay" type="RayCast2D" parent="RifleSprite" unique_id=1109266912]
+position = Vector2(18.5, 0.5)
+target_position = Vector2(500, 0)
+collision_mask = 7
+
+[node name="LaserSight" type="Line2D" parent="." unique_id=2109681843]
+visible = false
+z_index = -1
+position = Vector2(-1.5, -8.5)
+points = PackedVector2Array(0, 0, 500, 0)
+width = 1.0
+default_color = Color(0.86343604, 5.318448e-06, 7.70092e-07, 1)
 
 [node name="GunnerStateMachine" type="Node" parent="." unique_id=2097158008 node_paths=PackedStringArray("idle_state", "active_state", "current_state", "parent")]
 script = ExtResource("4_vxb2f")
@@ -49,3 +70,6 @@ script = ExtResource("7_7yvui")
 [node name="BodyCollider" type="CollisionShape2D" parent="." unique_id=1705142879]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_briys")
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=392425825]
+one_shot = true
