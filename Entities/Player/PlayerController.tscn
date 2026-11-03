@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b2r2yl8y4g65c"]
+
+[ext_resource type="Script" uid="uid://n0do5ubms16m" path="res://Entities/Player/player_controller.gd" id="1_tsbpy"]
+[ext_resource type="Texture2D" uid="uid://cxs3tghdihq84" path="res://Entities/Player/Assets/rope.png" id="3_q4nbu"]
+
+[node name="PlayerController" type="Node2D" unique_id=279444740 node_paths=PackedStringArray("rope_handle")]
+script = ExtResource("1_tsbpy")
+rope_handle = NodePath("RopeHandleGraphic")
+
+[node name="RopeHandleGraphic" type="Line2D" parent="." unique_id=2007810490]
+texture_repeat = 2
+width = 4.0
+texture = ExtResource("3_q4nbu")
+texture_mode = 1

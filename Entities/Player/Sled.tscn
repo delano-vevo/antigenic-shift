@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://yv6c1tgprboc"]
+
+[ext_resource type="Texture2D" uid="uid://cttbysgpk4reb" path="res://Entities/Player/Assets/sled.png" id="1_1eabs"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b0sw7"]
+radius = 12.0
+height = 42.0
+
+[node name="Sled" type="CharacterBody2D" unique_id=250035303]
+z_index = -1
+collision_layer = 2
+collision_mask = 2
+
+[node name="SledSprite" type="Sprite2D" parent="." unique_id=858411517]
+texture = ExtResource("1_1eabs")
+offset = Vector2(-27, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=766139044]
+position = Vector2(-32, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_b0sw7")
