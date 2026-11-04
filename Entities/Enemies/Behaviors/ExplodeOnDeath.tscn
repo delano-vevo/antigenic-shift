@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c8qk1lpmtpd7w"]
+
+[ext_resource type="Script" uid="uid://cckvjtsup2bc4" path="res://Entities/Enemies/Behaviors/explode_on_death.gd" id="1_a3x6f"]
+
+[node name="ExplodeOnDeath" type="Node2D" unique_id=1475179133]
+script = ExtResource("1_a3x6f")
+metadata/_custom_type_script = "uid://dpvs24rjjdtky"

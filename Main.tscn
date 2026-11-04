@@ -7,11 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://sellsa1gwmv2" path="res://Entities/Player/Gunner/Gunner.tscn" id="5_fos0i"]
 [ext_resource type="PackedScene" uid="uid://cqhesercpyg1q" path="res://Entities/Enemies/BasicZombie/ZombieBasic.tscn" id="6_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GUI.tscn" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://ps8vlpkd231c" path="res://Entities/Enemies/ViralStrains/ViralStrain1.tscn" id="8_trn2v"]
 
-[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui")]
+[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui", "viral_strains")]
 script = ExtResource("1_glv2v")
 player_controller = NodePath("PlayerController")
 gui = NodePath("GUILayer/GUI")
+viral_strains = [NodePath("ViralStrain1")]
 
 [node name="PlayerController" parent="." unique_id=279444740 node_paths=PackedStringArray("scientist", "gunner", "sled") instance=ExtResource("2_uu6xs")]
 scientist = NodePath("../Scientist")
@@ -45,3 +47,5 @@ scale = Vector2(2, 2)
 transform = Transform2D(2, 0, 0, 2, 0, 0)
 
 [node name="GUI" parent="GUILayer" unique_id=1919894194 instance=ExtResource("7_lgr22")]
+
+[node name="ViralStrain1" parent="." unique_id=1554667474 instance=ExtResource("8_trn2v")]

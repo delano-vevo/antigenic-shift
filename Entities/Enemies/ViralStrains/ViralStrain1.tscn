@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ps8vlpkd231c"]
+
+[ext_resource type="Script" uid="uid://dhls5in6xfbc0" path="res://Entities/Enemies/ViralStrains/viral_strain.gd" id="1_v80ck"]
+[ext_resource type="Script" uid="uid://dslisp866qif6" path="res://Entities/Enemies/Traits/trait.gd" id="2_5a51b"]
+[ext_resource type="PackedScene" uid="uid://cqhesercpyg1q" path="res://Entities/Enemies/BasicZombie/ZombieBasic.tscn" id="2_mld20"]
+[ext_resource type="Resource" uid="uid://eds2pbdb0luw" path="res://Entities/Enemies/Traits/hp_up.tres" id="3_mld20"]
+[ext_resource type="Resource" uid="uid://cdy40uqpuexgl" path="res://Entities/Enemies/Traits/explode_on_death.tres" id="5_qgyxx"]
+[ext_resource type="Resource" uid="uid://ca5s1oiefj0da" path="res://Entities/Enemies/Traits/speed_up.tres" id="6_fdi2o"]
+
+[node name="ViralStrain1" type="Node2D" unique_id=1554667474]
+script = ExtResource("1_v80ck")
+zombie_base_tscn = ExtResource("2_mld20")
+traits = Array[ExtResource("2_5a51b")]([ExtResource("3_mld20"), ExtResource("5_qgyxx"), ExtResource("6_fdi2o")])
+metadata/_custom_type_script = "uid://dhls5in6xfbc0"

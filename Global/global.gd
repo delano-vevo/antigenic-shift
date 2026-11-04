@@ -6,4 +6,5 @@ const STAT_NAMES: Dictionary = {
 	Enum.EnemyStats.HP: "max_hp",
 	Enum.EnemyStats.MOVE_SPEED: "move_speed",
 	Enum.EnemyStats.ATTACK_DAMAGE: "attack_damage",
+	Enum.EnemyStats.DAMAGE_RESIST: "damage_resist",
 }
