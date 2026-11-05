@@ -2,9 +2,12 @@
 
 [ext_resource type="Script" uid="uid://t6njwv6a8jg6" path="res://Entities/Enemies/BasicZombie/zombie_basic.gd" id="1_lx0oi"]
 [ext_resource type="Texture2D" uid="uid://ch0jkjsea21hu" path="res://Entities/Enemies/Assets/zombie_basic.png" id="2_l8qv0"]
+[ext_resource type="PackedScene" uid="uid://phatt2f8racv" path="res://Entities/Enemies/BasicZombie/ZombieBite.tscn" id="2_vc84f"]
 [ext_resource type="Script" uid="uid://cb5vtub5qmx2x" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_machine.gd" id="3_lx0oi"]
 [ext_resource type="Script" uid="uid://dq7h7p7rbkhti" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_idle.gd" id="4_l8qv0"]
 [ext_resource type="Script" uid="uid://be0l56scy2wk3" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_chase.gd" id="5_5ibuc"]
+[ext_resource type="Script" uid="uid://7kwxbh0m0vhw" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_charge.gd" id="6_l8qv0"]
+[ext_resource type="Script" uid="uid://cc7c2ht5eeofw" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_bite.gd" id="7_5ibuc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lx0oi"]
 radius = 7.0
@@ -22,6 +25,74 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pk82h"]
+resource_name = "bite_left"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [11, 8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1.2, 0.8), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vc84f"]
+resource_name = "bite_right"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1.2, 0.8), Vector2(1.2, 0.8), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_dp0cu"]
@@ -95,11 +166,35 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_520xa"]
 _data = {
 &"RESET": SubResource("Animation_520xa"),
+&"bite_left": SubResource("Animation_pk82h"),
+&"bite_right": SubResource("Animation_vc84f"),
 &"idle_left": SubResource("Animation_dp0cu"),
 &"idle_right": SubResource("Animation_krbvh"),
 &"move_left": SubResource("Animation_48u8m"),
 &"move_right": SubResource("Animation_adfqx")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vc84f"]
+animation = &"bite_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pk82h"]
+animation = &"bite_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b3k45"]
+animation = &"bite_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_pk82h"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_vc84f")
+blend_point_0/pos = 1.0
+blend_point_0/name = &"bite_right"
+blend_point_1/node = SubResource("AnimationNodeAnimation_pk82h")
+blend_point_1/pos = -1.0
+blend_point_1/name = &"bite_left"
+blend_point_2/node = SubResource("AnimationNodeAnimation_b3k45")
+blend_point_2/pos = 0.0
+blend_point_2/name = &"bite_right 2"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_b3k45"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_krbvh"]
 animation = &"idle_left"
@@ -160,19 +255,30 @@ states/Start/position = Vector2(211, 94)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_n51fy"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_b56ly"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_k3eum"), "Idle", "End", SubResource("AnimationNodeStateMachineTransition_25hh7")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_krbvh"]
-graph_offset = Vector2(-421, 27)
+graph_offset = Vector2(-370.05676, 147.53738)
+nodes/output/position = Vector2(480, 220)
 nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_6cp86")
-nodes/MoveStateMachine/position = Vector2(20, 120)
-node_connections = [&"output", 0, &"MoveStateMachine"]
+nodes/MoveStateMachine/position = Vector2(-20, 140)
+nodes/Bite_OneShot/node = SubResource("AnimationNodeOneShot_b3k45")
+nodes/Bite_OneShot/position = Vector2(300, 220)
+nodes/Bite_BlendSpace/node = SubResource("AnimationNodeBlendSpace1D_pk82h")
+nodes/Bite_BlendSpace/position = Vector2(0, 360)
+node_connections = [&"output", 0, &"Bite_OneShot", &"Bite_OneShot", 0, &"MoveStateMachine", &"Bite_OneShot", 1, &"Bite_BlendSpace"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5ibuc"]
+radius = 12.0
+height = 38.0
 
 [node name="Zombie" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "animation_player", "animation_tree", "state_machine")]
 collision_layer = 5
 collision_mask = 3
 script = ExtResource("1_lx0oi")
+bite_fx = ExtResource("2_vc84f")
 sprite = NodePath("Sprite2D")
 move_speed = 30.0
 detect_range = 100.0
 lose_range = 150.0
+attack_range = 50.0
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 state_machine = NodePath("ZombieStateMachine")
@@ -180,7 +286,9 @@ max_hp = 3.0
 metadata/_custom_type_script = "uid://dste134fil6fd"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2025249128]
+position = Vector2(0, 16)
 texture = ExtResource("2_l8qv0")
+offset = Vector2(0, -16)
 hframes = 4
 vframes = 3
 
@@ -188,8 +296,12 @@ vframes = 3
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_lx0oi")
 
-[node name="ZombieStateMachine" type="Node" parent="." unique_id=122128779 node_paths=PackedStringArray("current_state", "parent")]
+[node name="ZombieStateMachine" type="Node" parent="." unique_id=122128779 node_paths=PackedStringArray("idle_state", "chase_state", "charge_state", "bite_state", "current_state", "parent")]
 script = ExtResource("3_lx0oi")
+idle_state = NodePath("Idle")
+chase_state = NodePath("Chase")
+charge_state = NodePath("Charge")
+bite_state = NodePath("Bite")
 current_state = NodePath("Idle")
 parent = NodePath("..")
 
@@ -197,15 +309,46 @@ parent = NodePath("..")
 script = ExtResource("4_l8qv0")
 chase_state = NodePath("../Chase")
 
-[node name="Chase" type="Node" parent="ZombieStateMachine" unique_id=1328703041 node_paths=PackedStringArray("idle_state")]
+[node name="Chase" type="Node" parent="ZombieStateMachine" unique_id=1328703041 node_paths=PackedStringArray("idle_state", "charge_state")]
 script = ExtResource("5_5ibuc")
 idle_state = NodePath("../Idle")
+charge_state = NodePath("../Charge")
+
+[node name="Charge" type="Node" parent="ZombieStateMachine" unique_id=1994496427 node_paths=PackedStringArray("bite_state", "chase_state", "timeout")]
+script = ExtResource("6_l8qv0")
+bite_state = NodePath("../Bite")
+chase_state = NodePath("../Chase")
+timeout = NodePath("ChargeStateTimeout")
+
+[node name="ChargeStateTimeout" type="Timer" parent="ZombieStateMachine/Charge" unique_id=1144050988]
+one_shot = true
+
+[node name="Bite" type="Node" parent="ZombieStateMachine" unique_id=2124252697 node_paths=PackedStringArray("chase_state", "timeout")]
+script = ExtResource("7_5ibuc")
+chase_state = NodePath("../Chase")
+timeout = NodePath("BiteStateTimeout")
+
+[node name="BiteStateTimeout" type="Timer" parent="ZombieStateMachine/Bite" unique_id=1441750835]
+wait_time = 0.6
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=978278108]
 libraries/ = SubResource("AnimationLibrary_520xa")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1745397600]
+active = false
 tree_root = SubResource("AnimationNodeBlendTree_krbvh")
 anim_player = NodePath("../AnimationPlayer")
 parameters/MoveStateMachine/Idle/blend_position = 0.0
 parameters/MoveStateMachine/Move/blend_position = 0.0007867813
+parameters/Bite_OneShot/active = false
+parameters/Bite_OneShot/internal_active = false
+parameters/Bite_OneShot/request = 0
+parameters/Bite_BlendSpace/blend_position = 0.0
+
+[node name="BiteArea" type="Area2D" parent="." unique_id=664548896]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BiteArea" unique_id=2078368098]
+shape = SubResource("CapsuleShape2D_5ibuc")
+
+[connection signal="body_entered" from="BiteArea" to="." method="_on_bite_area_body_entered"]

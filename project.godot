@@ -24,9 +24,15 @@ Enum="*uid://dmifap22obixi"
 
 window/size/viewport_width=1024
 window/size/viewport_height=768
+window/stretch/mode="viewport"
+window/stretch/scale=2.0
 window/stretch/scale_mode="integer"
 mouse_cursor/custom_image="uid://cl32gkwxegd4o"
 mouse_cursor/custom_image_hotspot=Vector2(10, 10)
+
+[global_group]
+
+player=""
 
 [input]
 

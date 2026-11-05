@@ -18,6 +18,8 @@ func apply_trait(zombie: Enemy) -> void:
 		var behavior_instance = behavior.instantiate()
 		zombie.add_child(behavior_instance)
 		zombie.behaviors.append(behavior_instance)
+		# Call the behavior on_added functionality
+		behavior_instance.on_added()
 	elif (trait_type == Enum.TraitType.STAT_CHANGE_FLAT):
 		# Apply a flat stat change to the provided stat
 		zombie.set(Global.STAT_NAMES[trait_stat], zombie.get(Global.STAT_NAMES[trait_stat]) + trait_amount)

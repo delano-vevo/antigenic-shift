@@ -11,6 +11,7 @@ extends Entity
 @export var lose_range: float = 1.0 ## The range at which a zombie will lose interest and quit chasing a player
 @export var damage_resist: float = 0.0 ## The enemy's resistance to incoming damage (as a percentage out of 100)
 @export var attack_damage: float = 1.0 ## The amount of damage the enemy does when attacking a player
+@export var attack_range: float = 20.0 ## The range at which the enemy will attempt to attack a player
 @onready var behaviors: Array[Behavior] ## An array of Behavior type resources that will execute and effect the enemy behavior at runtime
 
 ## Called from gunshot.gd when this is struck by a bullet; all enemies should have
@@ -28,3 +29,9 @@ func die() -> void:
 		behavior.on_death()
 	# Remove from the scene tree
 	queue_free()
+
+## Called when the enemy attempts to attack the player
+func do_attack() -> void:
+	# Apply attack logic from Behaviors
+	for behavior in behaviors:
+		behavior.on_attack()

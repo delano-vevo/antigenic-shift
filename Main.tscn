@@ -25,7 +25,6 @@ sled_accel = 400.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=724756508]
 anchor_mode = 0
-zoom = Vector2(2, 2)
 
 [node name="Scientist" parent="." unique_id=800071096 instance=ExtResource("3_cm0pq")]
 position = Vector2(234, 137)

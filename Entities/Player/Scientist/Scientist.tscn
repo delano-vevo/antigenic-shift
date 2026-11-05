@@ -285,7 +285,7 @@ nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_tag2v")
 nodes/MoveStateMachine/position = Vector2(40, 80)
 node_connections = [&"output", 0, &"MoveStateMachine"]
 
-[node name="Scientist" type="CharacterBody2D" unique_id=800071096 node_paths=PackedStringArray("animation_player", "animation_tree", "state_machine")]
+[node name="Scientist" type="CharacterBody2D" unique_id=800071096 node_paths=PackedStringArray("animation_player", "animation_tree", "state_machine") groups=["player"]]
 collision_mask = 2
 script = ExtResource("1_kh60x")
 animation_player = NodePath("AnimationPlayer")
