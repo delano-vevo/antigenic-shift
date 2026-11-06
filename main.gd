@@ -10,10 +10,13 @@ extends Node2D
 
 ## Gameplay variables
 @export var viral_strains: Array[ViralStrain]
+@onready var xp: float = 0.0 ## Current XP value
+@onready var next_level_xp: float = 10.0 ## XP required to level up
 
 ## Initialize the game
 func _ready() -> void:
 	update_ammo_counter()
+	_on_player_hp_get()
 
 ## Game loop
 func _process(delta: float) -> void:
@@ -48,3 +51,21 @@ func combine_strains(strain_a: ViralStrain, strain_b: ViralStrain) -> ViralStrai
 	var strain = viral_strain.new()
 	add_child(strain)
 	return null
+
+## Update the ammo counter GUI on ammo_changed signal from the Gunner player character
+func _on_gunner_ammo_changed() -> void:
+	update_ammo_counter()
+
+## Pass player references to the GUI to update health UI
+func _on_player_hp_get() -> void:
+	gui.health_bars.update_counters(player_controller.scientist, player_controller.gunner)
+
+## Update the XP counter when player obtains a sample
+func _on_player_xp_get(amount: float) -> void:
+	# Add the XP amount to the counter
+	xp += amount
+	# Check if this is enough for a level-up and do (something???)
+	if (xp >= next_level_xp):
+		xp = next_level_xp # For now just clamp it to max in order to keep it from fucking up the GUI
+	# Update the XP bar GUI
+	gui.xp_bar.set_xp_amount(xp, next_level_xp)

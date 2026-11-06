@@ -1,5 +1,8 @@
 extends Player
 
+## Signals
+signal ammo_changed
+
 ## Linked scenes
 @export var gunshot: PackedScene
 
@@ -37,7 +40,12 @@ func try_shoot_gun() -> bool:
 		shoot_cooldown_timer.start(shoot_cooldown)
 		# Expend a bullet
 		clip_current -= 1
-		# Update the GUI in the main scene
-		get_tree().get_current_scene().update_ammo_counter()
+		# Signal to Main to update ammo counter
+		ammo_changed.emit()
 	# If no success case has been encountered, indicate failure
 	return false
+
+## Called when the gunner obtains more ammunition
+func get_ammo(amount: int) -> void:
+	bullets += amount
+	ammo_changed.emit()

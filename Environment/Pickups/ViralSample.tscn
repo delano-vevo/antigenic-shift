@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://8i45ob76om3p"]
+
+[ext_resource type="Script" uid="uid://dbqexomti81jf" path="res://Environment/Pickups/viral_sample.gd" id="1_1nupd"]
+[ext_resource type="Texture2D" uid="uid://81leaog5n8sm" path="res://Environment/Pickups/Assets/viral_sample.png" id="2_o4521"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j1hul"]
+
+[node name="ViralSample" type="Area2D" unique_id=175574894]
+script = ExtResource("1_1nupd")
+metadata/_custom_type_script = "uid://cxaesxtciq8sj"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=939520325]
+texture = ExtResource("2_o4521")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335911938]
+shape = SubResource("CircleShape2D_j1hul")
