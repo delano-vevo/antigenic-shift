@@ -1,4 +1,4 @@
-extends Entity
+extends Player
 ## This script is responsible for the top-level Entity code for the Scientist
 ## half of the player's controllable entities
 

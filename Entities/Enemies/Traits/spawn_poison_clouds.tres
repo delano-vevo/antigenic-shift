@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Trait" format=3 uid="uid://cdpje7abgbf4c"]
+
+[ext_resource type="Script" uid="uid://dslisp866qif6" path="res://Entities/Enemies/Traits/trait.gd" id="1_2huee"]
+[ext_resource type="PackedScene" uid="uid://bh8mawhywmek7" path="res://Entities/Enemies/Behaviors/PoisonClouds/SpawnPoisonClouds.tscn" id="1_h73ma"]
+
+[resource]
+script = ExtResource("1_2huee")
+behavior = ExtResource("1_h73ma")
+metadata/_custom_type_script = "uid://dslisp866qif6"

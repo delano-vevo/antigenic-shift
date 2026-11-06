@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Trait" format=3 uid="uid://cdy40uqpuexgl"]
+
+[ext_resource type="PackedScene" uid="uid://c8qk1lpmtpd7w" path="res://Entities/Enemies/Behaviors/ExplodeOnDeath.tscn" id="1_2bbam"]
+[ext_resource type="Script" uid="uid://dslisp866qif6" path="res://Entities/Enemies/Traits/trait.gd" id="1_6rwoe"]
+
+[resource]
+script = ExtResource("1_6rwoe")
+behavior = ExtResource("1_2bbam")
+metadata/_custom_type_script = "uid://dslisp866qif6"

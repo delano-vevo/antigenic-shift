@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Trait" format=3 uid="uid://cfjkllji2wltn"]
+
+[ext_resource type="Script" uid="uid://dslisp866qif6" path="res://Entities/Enemies/Traits/trait.gd" id="1_albjn"]
+
+[resource]
+script = ExtResource("1_albjn")
+trait_type = 1
+trait_stat = 2
+trait_amount = 2.0
+metadata/_custom_type_script = "uid://dslisp866qif6"

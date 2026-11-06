@@ -13,3 +13,10 @@ func state_entered(parent: Entity) -> void:
 	pass
 func state_exited(parent: Entity) -> void:
 	pass
+
+## Checks whether this state is the current state in the StateMachine
+func is_current_state() -> bool:
+	if (get_parent().current_state == self):
+		return true
+	else:
+		return false

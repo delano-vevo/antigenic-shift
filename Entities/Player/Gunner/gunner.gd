@@ -1,4 +1,4 @@
-extends Entity
+extends Player
 
 ## Linked scenes
 @export var gunshot: PackedScene

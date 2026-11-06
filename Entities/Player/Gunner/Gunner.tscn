@@ -44,7 +44,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_fuu58"]
 resource_name = "reload_end"
-length = 0.19999999999999998
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -72,7 +72,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_4wdjm"]
 resource_name = "reload_start"
-length = 0.19999999999999998
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -105,7 +105,7 @@ _data = {
 &"reload_start": SubResource("Animation_4wdjm")
 }
 
-[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "animation_player", "state_machine")]
+[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "animation_player", "state_machine") groups=["player"]]
 collision_mask = 3
 script = ExtResource("1_wshob")
 gunshot = ExtResource("2_32mri")

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bdhott5rlrdxe"]
+
+[ext_resource type="Script" uid="uid://bywbrbam0t2ee" path="res://Entities/Enemies/Behaviors/PoisonClouds/poison_cloud.gd" id="1_u13n6"]
+[ext_resource type="Texture2D" uid="uid://dn48ommoq0jsi" path="res://VFX/Assets/poison_particles.png" id="2_0m2pf"]
+[ext_resource type="PackedScene" uid="uid://dvxkxbyqouai4" path="res://Entities/StatusEffects/PoisonStatus.tscn" id="2_cd0ac"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u13n6"]
+radius = 32.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0m2pf"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_0m2pf"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dkusn"]
+gradient = SubResource("Gradient_0m2pf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u13n6"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 8.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_dkusn")
+anim_offset_max = 1.0
+
+[node name="PoisonCloud" type="Area2D" unique_id=1374759853]
+script = ExtResource("1_u13n6")
+poison_status_tscn = ExtResource("2_cd0ac")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2012911199]
+shape = SubResource("CircleShape2D_u13n6")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2136898025]
+material = SubResource("CanvasItemMaterial_0m2pf")
+amount = 24
+texture = ExtResource("2_0m2pf")
+lifetime = 4.0
+process_material = SubResource("ParticleProcessMaterial_u13n6")
+
+[node name="Timeout" type="Timer" parent="." unique_id=1663357372]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]

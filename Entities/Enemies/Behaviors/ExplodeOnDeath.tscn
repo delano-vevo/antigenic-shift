@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://c8qk1lpmtpd7w"]
+
+[ext_resource type="Script" uid="uid://cckvjtsup2bc4" path="res://Entities/Enemies/Behaviors/explode_on_death.gd" id="1_a3x6f"]
+[ext_resource type="Texture2D" uid="uid://dgho11h0e3o4e" path="res://Entities/Enemies/Assets/exploded.png" id="2_uap0f"]
+[ext_resource type="Texture2D" uid="uid://lyo8or02c0rh" path="res://VFX/Assets/goop_explosion_particles.png" id="2_vl836"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uap0f"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a3x6f"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 60.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -100.0
+linear_accel_max = -94.19
+anim_offset_max = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c55ln"]
+radius = 64.0
+
+[node name="ExplodeOnDeath" type="Node2D" unique_id=1475179133 node_paths=PackedStringArray("exploded_sprite", "explode_particles", "damage_area")]
+z_index = -2
+script = ExtResource("1_a3x6f")
+exploded_sprite = NodePath("ExplodedSprite")
+explode_particles = NodePath("GPUParticles2D")
+damage_area = NodePath("DamageArea")
+metadata/_custom_type_script = "uid://dpvs24rjjdtky"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1880990719]
+z_index = -1
+material = SubResource("CanvasItemMaterial_uap0f")
+emitting = false
+amount = 24
+texture = ExtResource("2_vl836")
+lifetime = 10.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_a3x6f")
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=1038439813]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=1490991177]
+shape = SubResource("CircleShape2D_c55ln")
+
+[node name="ExplodedSprite" type="Sprite2D" parent="." unique_id=1279612412]
+visible = false
+texture = ExtResource("2_uap0f")
