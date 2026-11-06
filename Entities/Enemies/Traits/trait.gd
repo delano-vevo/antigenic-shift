@@ -2,6 +2,8 @@ class_name Trait
 extends Resource
 ## Implements a specialized Trait that will be part of a ViralStrain, defining the
 ## behaviours and stats of all zombies infected with that particular strain
+## Note that percentage types already have the first 100% baked in - that is, a value of
+## 0.2 in a percentage increase trait will multiply the stat by 1.2, NOT by 0.2
 
 ## Trait type
 @export var trait_type: Enum.TraitType ## The Type of trait (defined in Enum.TraitType)
@@ -25,4 +27,4 @@ func apply_trait(zombie: Enemy) -> void:
 		zombie.set(Global.STAT_NAMES[trait_stat], zombie.get(Global.STAT_NAMES[trait_stat]) + trait_amount)
 	elif (trait_type == Enum.TraitType.STAT_CHANGE_PERCENT):
 		# Apply a percentage change to the provided stat
-		zombie.set(Global.STAT_NAMES[trait_stat], zombie.get(Global.STAT_NAMES[trait_stat]) * trait_amount)
+		zombie.set(Global.STAT_NAMES[trait_stat], zombie.get(Global.STAT_NAMES[trait_stat]) * (1+trait_amount))

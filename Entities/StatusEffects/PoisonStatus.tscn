@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dvxkxbyqouai4"]
+
+[ext_resource type="Script" uid="uid://do8g00d58g04i" path="res://Entities/StatusEffects/poison_status.gd" id="1_o0hwn"]
+
+[node name="PoisonStatus" type="Node2D" unique_id=1506771063 node_paths=PackedStringArray("effect_timeout", "effect_tick")]
+script = ExtResource("1_o0hwn")
+effect_timeout = NodePath("Timeout")
+effect_tick = NodePath("Tick")
+
+[node name="Timeout" type="Timer" parent="." unique_id=390961020]
+wait_time = 4.0
+autostart = true
+
+[node name="Tick" type="Timer" parent="." unique_id=421071577]
+wait_time = 0.25
+autostart = true

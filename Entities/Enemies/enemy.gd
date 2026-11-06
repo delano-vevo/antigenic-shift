@@ -8,7 +8,7 @@ extends Entity
 ## Gameplay variables
 @export var move_speed: float = 1.0
 @export var detect_range: float = 1.0 ## The range at which a zombie will detect a player # TODO: make this line of sight
-@export var lose_range: float = 1.0 ## The range at which a zombie will lose interest and quit chasing a player
+@export var lose_range: float = 1.0 ## The EXTRA range (on top of detect_range) that the enemy will pursue from once the player is spotted
 @export var damage_resist: float = 0.0 ## The enemy's resistance to incoming damage (as a percentage out of 100)
 @export var attack_damage: float = 1.0 ## The amount of damage the enemy does when attacking a player
 @export var attack_range: float = 20.0 ## The range at which the enemy will attempt to attack a player
@@ -18,17 +18,25 @@ extends Entity
 ## at least this basic functionality for reacting to gunshots
 func get_shot(gunshot: Gunshot) -> void:
 	# The simplest possible "take-damage-then-die" effect
-	hp -= gunshot.damage_amt
+	# Apply damage damping from damage_resist trait
+	take_damage(gunshot.damage_amt)
+
+## Take in some amount of damage from an outside source and apply logic
+func take_damage(amount: float) -> void:
+	var damage_taken: float = amount * (1-clamp(damage_resist,0,Global.MAX_DAMAGE_RESIST))
+	hp -= damage_taken
 	if (hp <= 0):
 		die()
 
 ## Called when the zombie is killed to handle death logic
 func die() -> void:
-	# Trigger all on_death Behaviors
-	for behavior in behaviors:
-		behavior.on_death()
-	# Remove from the scene tree
-	queue_free()
+	# Don't die more than once, of course
+	if (!state_machine.dead_state.is_current_state()):
+		# Trigger all on_death Behaviors
+		for behavior in behaviors:
+			behavior.on_death()
+		# Set to dead state, which should be implemented in ALL enemies
+		state_machine.set_state(state_machine.dead_state)
 
 ## Called when the enemy attempts to attack the player
 func do_attack() -> void:

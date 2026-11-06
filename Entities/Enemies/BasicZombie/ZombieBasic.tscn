@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://be0l56scy2wk3" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_chase.gd" id="5_5ibuc"]
 [ext_resource type="Script" uid="uid://7kwxbh0m0vhw" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_charge.gd" id="6_l8qv0"]
 [ext_resource type="Script" uid="uid://cc7c2ht5eeofw" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_bite.gd" id="7_5ibuc"]
+[ext_resource type="Script" uid="uid://dqr7e0ndt1ak5" path="res://Entities/Enemies/BasicZombie/StateMachine/zombie_state_dead.gd" id="9_pk82h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lx0oi"]
 radius = 7.0
@@ -266,10 +267,10 @@ nodes/Bite_BlendSpace/position = Vector2(0, 360)
 node_connections = [&"output", 0, &"Bite_OneShot", &"Bite_OneShot", 0, &"MoveStateMachine", &"Bite_OneShot", 1, &"Bite_BlendSpace"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5ibuc"]
-radius = 12.0
-height = 38.0
+radius = 14.0
+height = 40.0
 
-[node name="Zombie" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "animation_player", "animation_tree", "state_machine")]
+[node name="ZombieBasic" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "animation_player", "animation_tree", "state_machine")]
 collision_layer = 5
 collision_mask = 3
 script = ExtResource("1_lx0oi")
@@ -277,7 +278,7 @@ bite_fx = ExtResource("2_vc84f")
 sprite = NodePath("Sprite2D")
 move_speed = 30.0
 detect_range = 100.0
-lose_range = 150.0
+lose_range = 50.0
 attack_range = 50.0
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
@@ -296,12 +297,13 @@ vframes = 3
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_lx0oi")
 
-[node name="ZombieStateMachine" type="Node" parent="." unique_id=122128779 node_paths=PackedStringArray("idle_state", "chase_state", "charge_state", "bite_state", "current_state", "parent")]
+[node name="ZombieStateMachine" type="Node" parent="." unique_id=122128779 node_paths=PackedStringArray("idle_state", "chase_state", "charge_state", "bite_state", "dead_state", "current_state", "parent")]
 script = ExtResource("3_lx0oi")
 idle_state = NodePath("Idle")
 chase_state = NodePath("Chase")
 charge_state = NodePath("Charge")
 bite_state = NodePath("Bite")
+dead_state = NodePath("Dead")
 current_state = NodePath("Idle")
 parent = NodePath("..")
 
@@ -331,6 +333,9 @@ timeout = NodePath("BiteStateTimeout")
 [node name="BiteStateTimeout" type="Timer" parent="ZombieStateMachine/Bite" unique_id=1441750835]
 wait_time = 0.6
 one_shot = true
+
+[node name="Dead" type="Node" parent="ZombieStateMachine" unique_id=1726199023]
+script = ExtResource("9_pk82h")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=978278108]
 libraries/ = SubResource("AnimationLibrary_520xa")

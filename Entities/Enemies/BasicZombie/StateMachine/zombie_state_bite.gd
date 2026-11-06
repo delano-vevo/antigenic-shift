@@ -11,6 +11,7 @@ func state_entered(parent: Entity) -> void:
 	var bite = parent.bite_fx.instantiate()
 	bite.global_position = parent.bite_player.global_position
 	get_tree().get_current_scene().add_child(bite)
+	bite.damage = parent.attack_damage
 	# Debug output
 	print("I bite-a the player!")
 

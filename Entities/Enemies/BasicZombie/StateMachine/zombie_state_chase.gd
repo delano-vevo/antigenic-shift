@@ -15,7 +15,7 @@ func physics_process(delta: float, parent: Entity) -> State:
 	if (nearest_player == null):
 		return idle_state
 	# Make sure the player is still in range
-	if (parent.global_position.distance_to(nearest_player.global_position) > parent.lose_range):
+	if (parent.global_position.distance_to(nearest_player.global_position) > parent.detect_range + parent.lose_range):
 		return idle_state
 	elif (parent.global_position.distance_to(nearest_player.global_position) <= parent.attack_range):
 		# See if the player is within attack range, and if so, apply the attack state

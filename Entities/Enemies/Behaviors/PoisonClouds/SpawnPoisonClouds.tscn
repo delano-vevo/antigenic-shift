@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bh8mawhywmek7"]
+
+[ext_resource type="Script" uid="uid://b2qcehpwxehw7" path="res://Entities/Enemies/Behaviors/PoisonClouds/spawn_poison_clouds.gd" id="1_5wfsc"]
+[ext_resource type="PackedScene" uid="uid://bdhott5rlrdxe" path="res://Entities/Enemies/Behaviors/PoisonClouds/PoisonCloud.tscn" id="2_wbfqi"]
+
+[node name="SpawnPoisonClouds" type="Node2D" unique_id=944033417]
+script = ExtResource("1_5wfsc")
+poison_cloud_tscn = ExtResource("2_wbfqi")
+metadata/_custom_type_script = "uid://dpvs24rjjdtky"
+
+[node name="NextCloudTimer" type="Timer" parent="." unique_id=1633520939]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="NextCloudTimer" to="." method="_on_next_cloud_timer_timeout"]
