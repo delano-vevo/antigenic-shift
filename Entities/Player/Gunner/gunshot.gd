@@ -42,7 +42,7 @@ func shoot(shoot_ray: RayCast2D, shot_spread: float = 0.0) -> bool:
 		# Apply effects to the hit node
 		# The hit object MUST have implemented the method get_shot() in order for this to have an effect
 		if (hit.has_method("get_shot")):
-			hit.get_shot(self)
+			hit.get_shot(self, shoot_ray.get_collision_point())
 		# TODO: maybe add an 'else' here with some kind of default particles/behavior?
 		# Delete this node and indicate success
 		return true

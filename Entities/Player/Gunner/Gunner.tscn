@@ -127,7 +127,7 @@ texture = ExtResource("2_dmn7r")
 offset = Vector2(-0.5, -12.5)
 
 [node name="RifleSprite" type="Sprite2D" parent="." unique_id=495237489]
-z_index = 2
+z_index = 1
 position = Vector2(-1.5, -8.5)
 texture = ExtResource("3_wshob")
 offset = Vector2(9, 3)

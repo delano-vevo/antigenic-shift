@@ -6,12 +6,38 @@
 [ext_resource type="PackedScene" uid="uid://yv6c1tgprboc" path="res://Entities/Player/Sled.tscn" id="4_fos0i"]
 [ext_resource type="PackedScene" uid="uid://sellsa1gwmv2" path="res://Entities/Player/Gunner/Gunner.tscn" id="5_fos0i"]
 [ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GUI.tscn" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://prhhivb3hdu0" path="res://Environment/SpookyTree.tscn" id="8_03owx"]
 [ext_resource type="PackedScene" uid="uid://ps8vlpkd231c" path="res://Entities/Enemies/ViralStrains/ViralStrain1.tscn" id="8_trn2v"]
 
-[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui", "viral_strains")]
+[sub_resource type="Gradient" id="Gradient_lgr22"]
+offsets = PackedFloat32Array(0.011299435, 0.14124294, 0.59322035, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lgr22"]
+gradient = SubResource("Gradient_lgr22")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lgr22"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(512, 368, 1)
+angle_min = 1.0728835e-05
+angle_max = 720.0
+initial_velocity_min = 53.94
+initial_velocity_max = 82.979996
+gravity = Vector3(0, 20, 0)
+damping_min = 5.8090005
+damping_max = 10.7890005
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_lgr22")
+
+[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui", "snow_particles", "game_camera", "viral_strains")]
+y_sort_enabled = true
 script = ExtResource("1_glv2v")
 player_controller = NodePath("PlayerController")
 gui = NodePath("GUILayer/GUI")
+snow_particles = NodePath("Camera2D/SnowParticles")
+game_camera = NodePath("Camera2D")
 viral_strains = [NodePath("ViralStrain1")]
 
 [node name="PlayerController" parent="." unique_id=279444740 node_paths=PackedStringArray("scientist", "gunner", "sled") instance=ExtResource("2_uu6xs")]
@@ -23,7 +49,13 @@ friction_coefficient = 500.0
 sled_accel = 400.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=724756508]
-anchor_mode = 0
+
+[node name="SnowParticles" type="GPUParticles2D" parent="Camera2D" unique_id=1498302365]
+z_index = 10
+emitting = false
+amount = 500
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_lgr22")
 
 [node name="Scientist" parent="." unique_id=800071096 instance=ExtResource("3_cm0pq")]
 position = Vector2(234, 137)
@@ -39,6 +71,12 @@ position = Vector2(-33, 0)
 [node name="GUI" parent="GUILayer" unique_id=1919894194 instance=ExtResource("7_lgr22")]
 
 [node name="ViralStrain1" parent="." unique_id=1554667474 instance=ExtResource("8_trn2v")]
+
+[node name="SpookyTree" parent="." unique_id=1411922807 instance=ExtResource("8_03owx")]
+position = Vector2(128, 312)
+
+[node name="SpookyTree2" parent="." unique_id=1617440657 instance=ExtResource("8_03owx")]
+position = Vector2(440, 176)
 
 [connection signal="hp_get" from="Scientist" to="." method="_on_player_hp_get"]
 [connection signal="xp_get" from="Scientist" to="." method="_on_player_xp_get"]
