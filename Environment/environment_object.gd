@@ -13,6 +13,5 @@ func get_shot(gunshot: Gunshot, collision_point: Vector2) -> void:
 		var new_part: GPUParticles2D = hit_particles.duplicate()
 		add_child(new_part)
 		## Emit particles from this GPUParticles node at the collision point
-		# TODO: this DESPERATELY needs some kind of garbage collection!
 		new_part.global_position = collision_point
-		new_part.emitting = true
+		new_part.start_particles()

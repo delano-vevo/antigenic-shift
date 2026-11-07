@@ -32,6 +32,11 @@ func _process(delta: float) -> void:
 	if (Input.is_action_just_pressed("debug_1")):
 		var nz = spawn_zombie()
 		nz.global_position = get_global_mouse_position()
+	if (Input.is_action_just_pressed("debug_2")):
+		var upg_1 = load("res://Entities/Player/Upgrades/hp_upgrade.gd").new()
+		var upg_2 = load("res://Entities/Player/Upgrades/shot_damage_upgrade.gd").new()
+		player_controller.scientist.get_upgrade(upg_1)
+		player_controller.gunner.get_upgrade(upg_2)
 
 ## Handles the camera control, calculating the best camera position & zoom by aggregating
 ## onscreen entities (and maybe even level data eventually)

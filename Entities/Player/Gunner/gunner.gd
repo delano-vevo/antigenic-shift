@@ -35,6 +35,9 @@ func try_shoot_gun() -> bool:
 		# Generate a new gunshot for checking the shot
 		var this_shot = gunshot.instantiate()
 		gun_sprite.add_child(this_shot)
+		# Apply upgrades to the bullet and fire it
+		for upgrade in upgrades:
+			upgrade.upgrade_gunshot(this_shot)
 		this_shot.shoot(shoot_ray.duplicate(), shot_spread)
 		# Reset the gun's cooldown
 		shoot_cooldown_timer.start(shoot_cooldown)
