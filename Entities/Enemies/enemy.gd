@@ -2,6 +2,9 @@ class_name Enemy
 extends Entity
 ## This class implements core behaviors and properties for the game's zombies
 
+## Preloads
+@onready var blood_particles_tscn: PackedScene = preload("res://VFX/BloodParticles.tscn")
+
 ## Editor nodes
 @export var sprite: Sprite2D
 
@@ -16,7 +19,12 @@ extends Entity
 
 ## Called from gunshot.gd when this is struck by a bullet; all enemies should have
 ## at least this basic functionality for reacting to gunshots
-func get_shot(gunshot: Gunshot) -> void:
+func get_shot(gunshot: Gunshot, collision_point: Vector2) -> void:
+	# Do blood VFX based on collision point and whatnot
+	var blood_part = blood_particles_tscn.instantiate()
+	blood_part.global_position = global_position
+	blood_part.rotation = gunshot.global_position.direction_to(global_position).angle()
+	get_tree().get_current_scene().add_child(blood_part)
 	# The simplest possible "take-damage-then-die" effect
 	# Apply damage damping from damage_resist trait
 	take_damage(gunshot.damage_amt)

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dsfl2uebirp3w"]
+
+[ext_resource type="Script" uid="uid://c2omkiwfdp17i" path="res://Environment/environment_object.gd" id="1_pelln"]
+[ext_resource type="Texture2D" uid="uid://bqught0kyqpow" path="res://Environment/Assets/truck.png" id="2_pwj0y"]
+[ext_resource type="PackedScene" uid="uid://u76joxoi6aik" path="res://Environment/Truck/TruckHitParticles.tscn" id="3_wno1s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wno1s"]
+size = Vector2(87, 20)
+
+[node name="Truck" type="StaticBody2D" unique_id=2084828899 node_paths=PackedStringArray("hit_particles")]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_pelln")
+hit_particles = NodePath("TruckHitParticles")
+metadata/_custom_type_script = "uid://c2omkiwfdp17i"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2111581303]
+texture = ExtResource("2_pwj0y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1201155750]
+position = Vector2(-0.5, 9)
+shape = SubResource("RectangleShape2D_wno1s")
+
+[node name="TruckHitParticles" parent="." unique_id=1770450600 instance=ExtResource("3_wno1s")]

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://ct5kr6fke10lu"]
+
+[ext_resource type="Texture2D" uid="uid://6wds7uc1jis6" path="res://VFX/Assets/blood_particles.png" id="1_ewhc2"]
+[ext_resource type="Script" uid="uid://c5ue550m0h13g" path="res://VFX/blood_particles.gd" id="2_fgvpv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lxfrf"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lxfrf"]
+particle_flag_disable_z = true
+angle_min = -95.59999
+angle_max = 113.500015
+spread = 20.0
+flatness = 0.545
+initial_velocity_min = 95.439995
+initial_velocity_max = 161.81
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -100.0
+linear_accel_max = -91.7
+damping_min = 71.369
+damping_max = 85.477005
+scale_min = 0.79999995
+scale_max = 1.1999999
+anim_offset_max = 1.0
+turbulence_noise_strength = 3.75
+turbulence_influence_min = 0.025
+turbulence_influence_max = 0.085
+turbulence_initial_displacement_min = -31.699999
+turbulence_initial_displacement_max = 49.000004
+
+[node name="BloodParticles" type="GPUParticles2D" unique_id=1897020543]
+z_index = -2
+material = SubResource("CanvasItemMaterial_lxfrf")
+emitting = false
+amount = 12
+texture = ExtResource("1_ewhc2")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_lxfrf")
+script = ExtResource("2_fgvpv")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

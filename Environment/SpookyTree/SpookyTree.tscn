@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://prhhivb3hdu0"]
+
+[ext_resource type="Script" uid="uid://c2omkiwfdp17i" path="res://Environment/environment_object.gd" id="1_vfusy"]
+[ext_resource type="Texture2D" uid="uid://jyil8ppq0t24" path="res://Environment/Assets/spooky_tree.png" id="2_jxtp0"]
+[ext_resource type="PackedScene" uid="uid://cqanu6o5qj4dj" path="res://Environment/SpookyTree/SpookyTreeHitParticles.tscn" id="3_iammv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jxtp0"]
+height = 36.0
+
+[node name="SpookyTree" type="StaticBody2D" unique_id=1411922807 node_paths=PackedStringArray("hit_particles")]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_vfusy")
+hit_particles = NodePath("HitParticles")
+metadata/_custom_type_script = "uid://c2omkiwfdp17i"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=583890153]
+texture = ExtResource("2_jxtp0")
+offset = Vector2(-8, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2145558892]
+position = Vector2(2, -19)
+shape = SubResource("CapsuleShape2D_jxtp0")
+
+[node name="HitParticles" parent="." unique_id=899756037 instance=ExtResource("3_iammv")]

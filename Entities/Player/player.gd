@@ -7,6 +7,9 @@ extends Entity
 signal hp_get
 signal xp_get(amount: float)
 
+## Gameplay variables
+@onready var upgrades: Array[PlayerUpgrade] ## A list of PlayerUpgrade resources defining the upgrades on the player character
+
 ## Take in some amount of damage from an outside source and apply logic
 func take_damage(amount: float) -> void:
 	print(str(self) + " is taking " + str(amount) + " damage")
@@ -15,6 +18,11 @@ func take_damage(amount: float) -> void:
 	print(str(self) + " hp is now " + str(hp))
 	if (hp <= 0):
 		print("Ouchie i dead :(")
+
+## Get a new upgrade
+func get_upgrade(new_upgrade: PlayerUpgrade) -> void:
+	upgrades.append(new_upgrade)
+	new_upgrade.upgrade_obtained(self)
 
 ## Get an amount of extra HP
 func get_hp(amount: float) -> void:

@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://cqanu6o5qj4dj"]
+
+[ext_resource type="Script" uid="uid://br0hvh0h1i10g" path="res://Environment/environment_hit_particles.gd" id="1_aomb7"]
+
+[sub_resource type="Gradient" id="Gradient_jxtp0"]
+offsets = PackedFloat32Array(0, 0.65536726, 1)
+colors = PackedColorArray(0.89411765, 0.8235294, 0.6666667, 1, 0.3529412, 0.30588236, 0.26666668, 1, 0.3529412, 0.30588236, 0.26666668, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jxtp0"]
+gradient = SubResource("Gradient_jxtp0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_trn2v"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 82.97
+initial_velocity_max = 165.95999
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -89.63
+linear_accel_max = -72.2
+damping_min = 18.257
+damping_max = 24.896002
+color_ramp = SubResource("GradientTexture1D_jxtp0")
+
+[node name="HitParticles" type="GPUParticles2D" unique_id=899756037 node_paths=PackedStringArray("timeout_timer")]
+z_index = 5
+emitting = false
+amount = 32
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_trn2v")
+script = ExtResource("1_aomb7")
+timeout_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="." unique_id=651374417]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
