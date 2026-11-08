@@ -5,10 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://dqeq6caxbijex" path="res://Entities/Player/Scientist/Scientist.tscn" id="3_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://yv6c1tgprboc" path="res://Entities/Player/Sled.tscn" id="4_fos0i"]
 [ext_resource type="PackedScene" uid="uid://sellsa1gwmv2" path="res://Entities/Player/Gunner/Gunner.tscn" id="5_fos0i"]
-[ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GUI.tscn" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GameplayGUI.tscn" id="7_lgr22"]
 [ext_resource type="PackedScene" uid="uid://prhhivb3hdu0" path="res://Environment/SpookyTree/SpookyTree.tscn" id="8_03owx"]
 [ext_resource type="PackedScene" uid="uid://ps8vlpkd231c" path="res://Entities/Enemies/ViralStrains/ViralStrain1.tscn" id="8_trn2v"]
 [ext_resource type="PackedScene" uid="uid://dsfl2uebirp3w" path="res://Environment/Truck/Truck.tscn" id="9_03owx"]
+[ext_resource type="PackedScene" uid="uid://cidvq128oguok" path="res://GameLogic/DayNightController.tscn" id="10_wkp8b"]
+[ext_resource type="PackedScene" uid="uid://d1o1shsojx1q8" path="res://Environment/Buildings/Bunker.tscn" id="11_20pc6"]
 
 [sub_resource type="Gradient" id="Gradient_lgr22"]
 offsets = PackedFloat32Array(0.011299435, 0.14124294, 0.59322035, 1)
@@ -32,22 +34,31 @@ scale_min = 2.0
 scale_max = 3.0
 color_ramp = SubResource("GradientTexture1D_lgr22")
 
-[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui", "snow_particles", "game_camera", "viral_strains")]
+[node name="Main" type="Node2D" unique_id=835620412 node_paths=PackedStringArray("player_controller", "gui_layer", "gameplay_gui", "snow_particles", "game_camera", "day_night_controller", "environment", "bunker", "viral_strains")]
+process_mode = 3
 y_sort_enabled = true
 script = ExtResource("1_glv2v")
 player_controller = NodePath("PlayerController")
-gui = NodePath("GUILayer/GUI")
+gui_layer = NodePath("GUILayer")
+gameplay_gui = NodePath("GUILayer/GameplayGUI")
 snow_particles = NodePath("Camera2D/SnowParticles")
 game_camera = NodePath("Camera2D")
+day_night_controller = NodePath("DayNightController")
+environment = NodePath("Environment")
+bunker = NodePath("Environment/Bunker")
 viral_strains = [NodePath("ViralStrains/ViralStrain1")]
 
 [node name="PlayerController" parent="." unique_id=279444740 node_paths=PackedStringArray("scientist", "gunner", "sled") instance=ExtResource("2_uu6xs")]
+process_mode = 1
 scientist = NodePath("../Environment/Scientist")
 gunner = NodePath("../Environment/Sled/Gunner")
 sled = NodePath("../Environment/Sled")
 rope_length_max = 65.0
 friction_coefficient = 500.0
 sled_accel = 400.0
+
+[node name="DayNightController" parent="." unique_id=409227222 instance=ExtResource("10_wkp8b")]
+process_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=724756508]
 
@@ -60,13 +71,14 @@ process_material = SubResource("ParticleProcessMaterial_lgr22")
 
 [node name="GUILayer" type="CanvasLayer" parent="." unique_id=359143252]
 
-[node name="GUI" parent="GUILayer" unique_id=1919894194 instance=ExtResource("7_lgr22")]
+[node name="GameplayGUI" parent="GUILayer" unique_id=1919894194 instance=ExtResource("7_lgr22")]
 
 [node name="ViralStrains" type="Node2D" parent="." unique_id=86944236]
 
 [node name="ViralStrain1" parent="ViralStrains" unique_id=1554667474 instance=ExtResource("8_trn2v")]
 
 [node name="Environment" type="Node2D" parent="." unique_id=1609840670]
+process_mode = 1
 y_sort_enabled = true
 
 [node name="Scientist" parent="Environment" unique_id=800071096 instance=ExtResource("3_cm0pq")]
@@ -87,8 +99,15 @@ position = Vector2(440, 176)
 [node name="Truck" parent="Environment" unique_id=2084828899 instance=ExtResource("9_03owx")]
 position = Vector2(392, 336)
 
+[node name="Bunker" parent="Environment" unique_id=1987288439 instance=ExtResource("11_20pc6")]
+position = Vector2(280, -56)
+
+[connection signal="countdown_begin" from="DayNightController" to="." method="_on_day_night_controller_countdown_begin"]
+[connection signal="game_over" from="DayNightController" to="." method="_on_game_over"]
+[connection signal="game_over" from="Environment/Scientist" to="." method="_on_game_over"]
 [connection signal="hp_get" from="Environment/Scientist" to="." method="_on_player_hp_get"]
 [connection signal="xp_get" from="Environment/Scientist" to="." method="_on_player_xp_get"]
 [connection signal="ammo_changed" from="Environment/Sled/Gunner" to="." method="_on_gunner_ammo_changed"]
+[connection signal="game_over" from="Environment/Sled/Gunner" to="." method="_on_game_over"]
 [connection signal="hp_get" from="Environment/Sled/Gunner" to="." method="_on_player_hp_get"]
 [connection signal="xp_get" from="Environment/Sled/Gunner" to="." method="_on_player_xp_get"]

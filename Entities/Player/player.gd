@@ -6,6 +6,7 @@ extends Entity
 ## Signals
 signal hp_get
 signal xp_get(amount: float)
+signal game_over
 
 ## Gameplay variables
 @onready var upgrades: Array[PlayerUpgrade] ## A list of PlayerUpgrade resources defining the upgrades on the player character
@@ -18,6 +19,7 @@ func take_damage(amount: float) -> void:
 	print(str(self) + " hp is now " + str(hp))
 	if (hp <= 0):
 		print("Ouchie i dead :(")
+		game_over.emit()
 
 ## Get a new upgrade
 func get_upgrade(new_upgrade: PlayerUpgrade) -> void:

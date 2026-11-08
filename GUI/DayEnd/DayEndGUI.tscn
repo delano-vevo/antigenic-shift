@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cm3k5p2tpoaw5"]
+
+[ext_resource type="Script" uid="uid://bgkvcxjay2gg3" path="res://GUI/DayEnd/day_end_gui.gd" id="1_ly33f"]
+[ext_resource type="Texture2D" uid="uid://benhsb8q4oe1s" path="res://GUI/Assets/levelup_screen.png" id="1_me2t5"]
+
+[sub_resource type="Gradient" id="Gradient_ly33f"]
+offsets = PackedFloat32Array(0, 0.6384181, 1)
+colors = PackedColorArray(0.61745477, 0.61745477, 0.6174547, 1, 0.65882355, 0.65882355, 0.65882355, 0, 0.68307734, 0.6830774, 0.68307734, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ly33f"]
+gradient = SubResource("Gradient_ly33f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ly33f"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 12.0
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_ly33f")
+
+[node name="DayEndGUI" type="Control" unique_id=1732362403]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ly33f")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=761781045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=56015366]
+handle_input_locally = false
+size = Vector2i(256, 192)
+render_target_update_mode = 4
+
+[node name="BackgroundTexture" type="TextureRect" parent="SubViewportContainer/SubViewport" unique_id=457563303]
+offset_right = 128.0
+offset_bottom = 96.0
+texture = ExtResource("1_me2t5")
+
+[node name="Smoking" type="GPUParticles2D" parent="SubViewportContainer/SubViewport" unique_id=1118155076]
+position = Vector2(40.75, 56.5)
+amount = 4
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_ly33f")
