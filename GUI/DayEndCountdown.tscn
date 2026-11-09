@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://dnl8503b1dxb8"]
+
+[ext_resource type="Script" uid="uid://c3dxhvrbpr5hb" path="res://GUI/day_end_countdown.gd" id="1_lc3d2"]
+[ext_resource type="Texture2D" uid="uid://bqakcrtu33aji" path="res://GUI/Assets/caution_texture.png" id="2_7onmn"]
+
+[sub_resource type="Animation" id="Animation_lkr7x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.49019608)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-550, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_7onmn"]
+resource_name = "animate_bar"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.49019608), Color(1, 1, 1, 0.33333334)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-650, 46), Vector2(-570, 46)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lkr7x"]
+_data = {
+&"RESET": SubResource("Animation_lkr7x"),
+&"animate_bar": SubResource("Animation_7onmn")
+}
+
+[node name="DayEndCountdown" type="Control" unique_id=106058805 node_paths=PackedStringArray("countdown_label", "bg_texture", "animate_texture")]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_lc3d2")
+countdown_label = NodePath("CountdownLabel")
+bg_texture = NodePath("TextureRect")
+animate_texture = NodePath("AnimateTexture")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1360252780]
+modulate = Color(1, 1, 1, 0.49019608)
+layout_mode = 0
+offset_left = -550.0
+offset_top = 24.0
+offset_right = 682.0
+offset_bottom = 64.0
+texture = ExtResource("2_7onmn")
+stretch_mode = 1
+
+[node name="CountdownLabel" type="Label" parent="." unique_id=786705427]
+layout_mode = 0
+offset_left = -121.0
+offset_top = 43.0
+offset_right = 123.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "60.0000"
+horizontal_alignment = 1
+
+[node name="AnimateTexture" type="AnimationPlayer" parent="." unique_id=278402370]
+libraries/ = SubResource("AnimationLibrary_lkr7x")

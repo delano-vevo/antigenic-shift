@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://cm3k5p2tpoaw5"]
+
+[ext_resource type="Script" uid="uid://bgkvcxjay2gg3" path="res://GUI/DayEnd/day_end_gui.gd" id="1_ly33f"]
+[ext_resource type="Texture2D" uid="uid://benhsb8q4oe1s" path="res://GUI/Assets/levelup_screen.png" id="1_me2t5"]
+[ext_resource type="Texture2D" uid="uid://bwxumlitf8b5v" path="res://GUI/Assets/cure_bar_under.png" id="3_knqis"]
+[ext_resource type="Texture2D" uid="uid://bvemjkoa0leex" path="res://GUI/Assets/cure_bar_over.png" id="4_exbm4"]
+[ext_resource type="Texture2D" uid="uid://yvoig2eerbkh" path="res://GUI/Assets/nine_patch_rect_basic.png" id="5_exbm4"]
+
+[sub_resource type="Gradient" id="Gradient_ly33f"]
+offsets = PackedFloat32Array(0, 0.6384181, 1)
+colors = PackedColorArray(0.61745477, 0.61745477, 0.6174547, 1, 0.65882355, 0.65882355, 0.65882355, 0, 0.68307734, 0.6830774, 0.68307734, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ly33f"]
+gradient = SubResource("Gradient_ly33f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ly33f"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 12.0
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_ly33f")
+
+[node name="DayEndGUI" type="Control" unique_id=1732362403 node_paths=PackedStringArray("subviewport", "cure_progress_label", "cure_progress_bar", "upgrade_display", "upgrade_display_label", "continue_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ly33f")
+subviewport = NodePath("SubViewportContainer/SubViewport")
+cure_progress_label = NodePath("CureProgressLabel")
+cure_progress_bar = NodePath("CureProgressBar")
+upgrade_display = NodePath("UpgradeDisplay")
+upgrade_display_label = NodePath("UpgradeDisplay/UpgradeDisplayLabel")
+continue_button = NodePath("ContinueButton")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=761781045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=56015366]
+handle_input_locally = false
+size = Vector2i(256, 192)
+render_target_update_mode = 4
+
+[node name="BackgroundTexture" type="TextureRect" parent="SubViewportContainer/SubViewport" unique_id=457563303]
+offset_right = 128.0
+offset_bottom = 96.0
+texture = ExtResource("1_me2t5")
+
+[node name="Smoking" type="GPUParticles2D" parent="SubViewportContainer/SubViewport" unique_id=1118155076]
+position = Vector2(40.75, 56.5)
+amount = 4
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_ly33f")
+
+[node name="UpgradeDisplay" type="NinePatchRect" parent="." unique_id=90060267]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 16.0
+offset_right = 150.0
+offset_bottom = 156.0
+grow_horizontal = 2
+texture = ExtResource("5_exbm4")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="UpgradeDisplayLabel" type="Label" parent="UpgradeDisplay" unique_id=1683277368]
+custom_minimum_size = Vector2(288, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -63.0
+offset_right = 144.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1253046055]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -48.0
+offset_right = 39.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Continue"
+
+[node name="CureProgressBar" type="TextureProgressBar" parent="." unique_id=1551920980]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 48.0
+offset_right = 100.0
+offset_bottom = 72.0
+grow_horizontal = 2
+pivot_offset = Vector2(100, 0)
+texture_under = ExtResource("3_knqis")
+texture_progress = ExtResource("4_exbm4")
+
+[node name="CureProgressLabel" type="Label" parent="." unique_id=1434055862]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "CURE PROGRESS:"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

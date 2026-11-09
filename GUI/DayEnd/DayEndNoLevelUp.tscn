@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://esqvbn2x38nu"]
+
+[ext_resource type="Texture2D" uid="uid://yvoig2eerbkh" path="res://GUI/Assets/nine_patch_rect_basic.png" id="1_0itam"]
+[ext_resource type="Script" uid="uid://bm00emka4jrpb" path="res://GUI/DayEnd/day_end_no_level_up.gd" id="1_2qbso"]
+
+[node name="DayEndNoLevelUp" type="Control" unique_id=481675516 node_paths=PackedStringArray("continue_button")]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_2qbso")
+continue_button = NodePath("ContinueButton")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=2137472383]
+layout_mode = 0
+offset_left = -80.0
+offset_top = 16.0
+offset_right = 80.0
+offset_bottom = 111.0
+texture = ExtResource("1_0itam")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="NoLevelUpText" type="Label" parent="." unique_id=562431719]
+layout_mode = 0
+offset_left = -74.0
+offset_top = 22.0
+offset_right = 74.0
+offset_bottom = 74.0
+theme_override_font_sizes/font_size = 10
+text = "You did not collect enough
+samples to progress..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="." unique_id=183684867]
+layout_mode = 0
+offset_left = -30.0
+offset_top = 78.0
+offset_right = 31.0
+offset_bottom = 103.0
+theme_override_font_sizes/font_size = 12
+text = "Continue"
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

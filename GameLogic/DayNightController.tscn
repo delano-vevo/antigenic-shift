@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cidvq128oguok"]
+
+[ext_resource type="Script" uid="uid://cfryy0rai0470" path="res://GameLogic/day_night_controller.gd" id="1_eoqpb"]
+
+[node name="DayNightController" type="Node2D" unique_id=409227222 node_paths=PackedStringArray("day_length_timer", "day_countdown_timer")]
+script = ExtResource("1_eoqpb")
+day_length_timer = NodePath("DayLengthTimer")
+day_countdown_timer = NodePath("DayEndCountdown")
+
+[node name="DayLengthTimer" type="Timer" parent="." unique_id=747946406]
+wait_time = 10.0
+one_shot = true
+
+[node name="DayEndCountdown" type="Timer" parent="." unique_id=251205078]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="DayLengthTimer" to="." method="_on_day_length_timer_timeout"]
+[connection signal="timeout" from="DayEndCountdown" to="." method="_on_day_end_countdown_timeout"]

@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://d1o1shsojx1q8"]
+
+[ext_resource type="Script" uid="uid://c6j4dmkfw48ag" path="res://Environment/Buildings/bunker.gd" id="1_nsj6q"]
+[ext_resource type="Texture2D" uid="uid://hefuvwjnu0v5" path="res://Environment/Assets/bunker.png" id="2_oq86y"]
+[ext_resource type="Texture2D" uid="uid://cxfv2ygu75qhh" path="res://Environment/Assets/bunker_door.png" id="3_oq1yu"]
+
+[sub_resource type="Animation" id="Animation_d8kfh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BunkerDoorSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_d5ueu"]
+resource_name = "close_door"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BunkerDoorSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1e-05), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_oq1yu"]
+resource_name = "open_door"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BunkerDoorSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorCollider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d8kfh"]
+_data = {
+&"RESET": SubResource("Animation_d8kfh"),
+&"close_door": SubResource("Animation_d5ueu"),
+&"open_door": SubResource("Animation_oq1yu")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oq1yu"]
+size = Vector2(88, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c55ln"]
+size = Vector2(89, 38)
+
+[node name="Bunker" type="StaticBody2D" unique_id=1987288439 node_paths=PackedStringArray("animation_player")]
+collision_layer = 2
+script = ExtResource("1_nsj6q")
+animation_player = NodePath("AnimationPlayer")
+metadata/_custom_type_script = "uid://c2omkiwfdp17i"
+
+[node name="BunkerBuildingSprite" type="Sprite2D" parent="." unique_id=1977974883]
+texture = ExtResource("2_oq86y")
+offset = Vector2(0, -38)
+
+[node name="BunkerDoorSprite" type="Sprite2D" parent="." unique_id=1322558367]
+position = Vector2(0, -52)
+texture = ExtResource("3_oq1yu")
+offset = Vector2(0, 25)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1899652081]
+libraries/ = SubResource("AnimationLibrary_d8kfh")
+
+[node name="EnterArea" type="Area2D" parent="." unique_id=52695072]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterArea" unique_id=1155105711]
+position = Vector2(0, -22)
+shape = SubResource("RectangleShape2D_oq1yu")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1566347461]
+polygon = PackedVector2Array(-45, -1, -69, -1, -69, -48, 69, -48, 69, -1, 45, -1, 45, -39, -45, -39)
+
+[node name="DoorCollider" type="CollisionShape2D" parent="." unique_id=1486646620]
+position = Vector2(-0.5, -20)
+shape = SubResource("RectangleShape2D_c55ln")
+
+[connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]

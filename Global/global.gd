@@ -11,3 +11,9 @@ const STAT_NAMES: Dictionary = {
 	Enum.EnemyStats.DAMAGE_RESIST: "damage_resist",
 	Enum.EnemyStats.DETECT_RANGE: "detect_range",
 }
+
+## Maps enum values from PlayerUpgradeTypes to actual preloaded resources
+const PLAYER_UPGRADES: Dictionary = {
+	Enum.PlayerUpgradeTypes.HP: preload("res://Entities/Player/Upgrades/hp_upgrade.gd"),
+	Enum.PlayerUpgradeTypes.SHOT_DAMAGE: preload("res://Entities/Player/Upgrades/shot_damage_upgrade.gd"),
+}
