@@ -20,6 +20,9 @@ extends Node2D
 @onready var xp: float = 0.0 ## Current XP value
 @onready var next_level_xp: float = 10.0 ## XP required to level up
 @onready var cure_progress: float = 0.0 ## The progress the player has made (as a percentage) towards discovering a cure
+@export var cure_progress_per_level: float = 10.0 ## The amount of cure progress rewarded for each successful level-up (if selected)
+@onready var last_upgrade: PlayerUpgrade ## Tracks the last upgrade applied to the player(s)
+@onready var day_end_gui: Control ## The Control node housing the end of day GUI
 
 ## Initialize the game
 func _ready() -> void:
@@ -45,10 +48,7 @@ func _process(delta: float) -> void:
 		nz.global_position = get_global_mouse_position()
 	# Add some default upgrades to the player for testing
 	if (Input.is_action_just_pressed("debug_2")):
-		var upg_1 = load("res://Entities/Player/Upgrades/hp_upgrade.gd").new()
-		var upg_2 = load("res://Entities/Player/Upgrades/shot_damage_upgrade.gd").new()
-		player_controller.scientist.get_upgrade(upg_1)
-		player_controller.gunner.get_upgrade(upg_2)
+		_on_player_xp_get(10)
 	# Toggle the bunker's door for testing
 	if (Input.is_action_just_pressed("debug_3")):
 		bunker.toggle_open()
@@ -77,11 +77,56 @@ func end_day() -> void:
 	get_tree().paused = true
 	# Apply the end of day UI layer
 	gameplay_gui.visible = false
-	var day_end_gui = day_end_gui_tscn.instantiate()
-	# Check for a levelup and pass info along to the GUI node
-	day_end_gui.init(xp == next_level_xp)
+	day_end_gui = day_end_gui_tscn.instantiate()
 	# Add GUI to tree
 	gui_layer.add_child(day_end_gui)
+	# Check for a levelup and pass info along to the GUI node
+	# TODO: if cure_progress ever stops being a percentage this will need additional math
+	day_end_gui.init(cure_progress, xp == next_level_xp)
+	# Connect signals from the day_end_gui to relevant endpoints
+	# Endpoints in Main for game control
+	day_end_gui.continue_game.connect(start_next_day)
+	day_end_gui.upgrade_player.connect(player_upgrade)
+	day_end_gui.progress_cure.connect(progress_cure)
+
+## Starts a new day - signalled from day_end_gui
+func start_next_day() -> void:
+	print("Starting a new day!")
+	day_end_gui.queue_free()
+	get_tree().paused = false
+	gameplay_gui.visible = true
+
+## For now this method is kind of a nothing because cure_progress is just implemented as a flat
+## value indicating a percentage out of 100; this method is here as a black box in case that ends
+## up needing to change to avoid a gigantic pain in the ass
+func get_cure_progress_percent() -> float:
+	return cure_progress
+
+## Upgrades the player with a randomly selected PlayerUpgrade
+## By default, will generate a new random upgrade when upgrade argument is null
+func player_upgrade(upgrade: PlayerUpgrade = null) -> void:
+	print("Giving the player a new upgrade!")
+	if (upgrade == null):
+		# Generate a random upgrade to apply
+		upgrade = Global.PLAYER_UPGRADES[randi_range(0,Enum.PlayerUpgradeTypes.SIZE-1)].new()
+		upgrade.upgrade_amount = 1.0 # TODO: actually randomize this instead of a default amount
+	# Parse the upgrade through the player controller to apply to specific Player instances
+	player_controller.route_upgrade(upgrade)
+	# Keep track of the most recently applied player upgrade
+	# Mostly used by UI nodes fetching it from get_tree().get_current_scene(), which
+	# seems like it just has to be a bad idea but here we are
+	last_upgrade = upgrade
+	print(upgrade)
+	
+
+## Apply progress towards finding the cure
+## If no amount is specified, value will default to the onboard variable
+func progress_cure(amount: float = cure_progress_per_level) -> void:
+	print("Progressing the cure...")
+	cure_progress += amount
+	# Check for victory
+	if (cure_progress >= 100):
+		print("Virus cured! You win! yay!")
 
 ## Determines the nearest player entity (between gunner & scientist) to a specific
 ## GLOBAL position within world space and returns it (or null if an error is encountered)

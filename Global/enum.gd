@@ -15,3 +15,10 @@ enum EnemyStats {
 	DAMAGE_RESIST,
 	DETECT_RANGE,
 }
+
+## All types of player upgrades
+enum PlayerUpgradeTypes {
+	HP,
+	SHOT_DAMAGE,
+	SIZE ## Special ending value to allow easy access via PlayerUpgradeTypes.SIZE to the number of upgrade types available
+}

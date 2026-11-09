@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dyg0dn4g5sdod"]
+
+[ext_resource type="Texture2D" uid="uid://yvoig2eerbkh" path="res://GUI/Assets/nine_patch_rect_basic.png" id="1_csqpl"]
+[ext_resource type="Script" uid="uid://cii4ll0teehnu" path="res://GUI/DayEnd/day_end_level_up.gd" id="1_wuxfq"]
+
+[node name="DayEndLevelUp" type="Control" unique_id=119470776 node_paths=PackedStringArray("upgrade_player_button", "progress_cure_button")]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_wuxfq")
+upgrade_player_button = NodePath("UpgradePlayer/UpgradePlayerButton")
+progress_cure_button = NodePath("ProgressCure/ProgressCureButton")
+
+[node name="ProgressCure" type="NinePatchRect" parent="." unique_id=1972937412]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 100.0
+texture = ExtResource("1_csqpl")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="ProgressCureButton" type="Button" parent="ProgressCure" unique_id=846305787]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 180.0
+offset_bottom = 88.0
+
+[node name="Label" type="Label" parent="ProgressCure" unique_id=287961469]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 176.0
+offset_bottom = 83.0
+text = "Continue researching
+a cure for the zombie
+infestation"
+horizontal_alignment = 1
+
+[node name="UpgradePlayer" type="NinePatchRect" parent="." unique_id=330744824]
+layout_mode = 0
+offset_left = -192.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 100.0
+pivot_offset = Vector2(184, 0)
+texture = ExtResource("1_csqpl")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="UpgradePlayerButton" type="Button" parent="UpgradePlayer" unique_id=1014358058]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 180.0
+offset_bottom = 88.0
+pivot_offset = Vector2(176, 0)
+
+[node name="Label" type="Label" parent="UpgradePlayer" unique_id=1750584898]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 176.0
+offset_bottom = 83.0
+pivot_offset = Vector2(168, 0)
+text = "Inject yourself with
+the sample to get
+a random upgrade"
+horizontal_alignment = 1
+vertical_alignment = 1

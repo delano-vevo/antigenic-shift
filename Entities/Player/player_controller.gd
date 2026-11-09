@@ -71,3 +71,17 @@ func _physics_process(delta: float) -> void:
 	# Override the gunner's rotation every frame to keep him centered on the sled
 	# for a cool effect and more consistent aiming/shooting controls
 	gunner.global_rotation = 0
+
+## Takes in a PlayerUpgrade and applies it to either the gunner, the scientist,
+## or both, based on the type of upgrade it is
+func route_upgrade(upgrade: PlayerUpgrade) -> void:
+	# It's what you're here for - it wouldn't be an indie game without it -
+	# this here is my project's very own Big Stupid Switch Statement!
+	match upgrade.upgrade_type:
+		Enum.PlayerUpgradeTypes.HP:
+			# HP upgrades go to BOTH players
+			gunner.get_upgrade(upgrade)
+			scientist.get_upgrade(upgrade)
+		Enum.PlayerUpgradeTypes.SHOT_DAMAGE:
+			# Shot damage always goes to the gunner
+			gunner.get_upgrade(upgrade)
