@@ -33,3 +33,8 @@ func set_blend_spaces(amount: int) -> void:
 		animation_tree.set("parameters/MoveStateMachine/Move/blend_position", amount)
 		animation_tree.set("parameters/MoveStateMachine/Idle/blend_position", amount)
 		animation_tree.set("parameters/Bite_BlendSpace/blend_position", amount)
+		animation_tree.set("parameters/Death_BlendSpace/blend_position", amount)
+
+## Deactivate the AnimationTree (called from death animation end)
+func stop_anim() -> void:
+	animation_tree.active = false

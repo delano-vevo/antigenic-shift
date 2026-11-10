@@ -11,6 +11,8 @@ signal countdown_begin
 
 ## Called to start a day cycle in the game
 func start_day() -> void:
+	day_countdown_timer.stop()
+	day_length_timer.stop()
 	day_length_timer.start()
 
 ## When the day_length_timer times out, trigger the frantic "get-the-fuck-home" period of gameplay

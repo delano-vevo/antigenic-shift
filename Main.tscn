@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dqeq6caxbijex" path="res://Entities/Player/Scientist/Scientist.tscn" id="3_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://yv6c1tgprboc" path="res://Entities/Player/Sled.tscn" id="4_fos0i"]
 [ext_resource type="PackedScene" uid="uid://sellsa1gwmv2" path="res://Entities/Player/Gunner/Gunner.tscn" id="5_fos0i"]
-[ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/GameplayGUI.tscn" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://cepa6r8alwr13" path="res://GUI/Gameplay/GameplayGUI.tscn" id="7_lgr22"]
 [ext_resource type="PackedScene" uid="uid://prhhivb3hdu0" path="res://Environment/SpookyTree/SpookyTree.tscn" id="8_03owx"]
 [ext_resource type="PackedScene" uid="uid://ps8vlpkd231c" path="res://Entities/Enemies/ViralStrains/ViralStrain1.tscn" id="8_trn2v"]
 [ext_resource type="PackedScene" uid="uid://dsfl2uebirp3w" path="res://Environment/Truck/Truck.tscn" id="9_03owx"]

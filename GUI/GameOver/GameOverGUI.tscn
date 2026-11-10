@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://b3seioklpbxql"]
+
+[ext_resource type="Script" uid="uid://mmh1weji08ry" path="res://GUI/GameOver/game_over_gui.gd" id="1_nogrg"]
+[ext_resource type="Texture2D" uid="uid://c88r4fix4sa4h" path="res://GUI/Assets/game_over_screen.png" id="1_oeryb"]
+
+[node name="GameOverGUI" type="Control" unique_id=1430473209]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nogrg")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=878158166]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1593559797]
+handle_input_locally = false
+size = Vector2i(256, 192)
+render_target_update_mode = 4
+
+[node name="BackgroundTexture" type="TextureRect" parent="SubViewportContainer/SubViewport" unique_id=1373425659]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_oeryb")
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1328493253]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -43.0
+offset_top = -63.0
+offset_right = 43.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Continue?"
+
+[node name="Label" type="Label" parent="." unique_id=268258440]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -183.0
+offset_top = 37.0
+offset_right = 183.0
+offset_bottom = 98.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4509804, 0.09019608, 0.1764706, 1)
+theme_override_font_sizes/font_size = 32
+text = "ALL HOPE IS LOST"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

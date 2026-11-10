@@ -24,6 +24,7 @@ scale_max = 2.0
 color_ramp = SubResource("GradientTexture1D_ly33f")
 
 [node name="DayEndGUI" type="Control" unique_id=1732362403 node_paths=PackedStringArray("subviewport", "cure_progress_label", "cure_progress_bar", "upgrade_display", "upgrade_display_label", "continue_button")]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
