@@ -1,6 +1,9 @@
 extends Node
 
 const MAX_DAMAGE_RESIST: float = 0.9
+const GAME_WIDTH: float = 512
+const GAME_HEIGHT: float = 384
+const AIM_LOOK: float = 15.0
 
 ## Maps enum values from EnemyStats to the actual string name of the property
 ## in the Enemy nodes for access with enemy.set() and enemy.get()

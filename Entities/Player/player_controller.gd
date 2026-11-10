@@ -38,7 +38,7 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	# Set the points on the wagon handle graphic
 	rope_handle.clear_points()
-	rope_handle.add_point(scientist.global_position)
+	rope_handle.add_point(scientist.rope_connector.global_position)
 	rope_handle.add_point(sled.global_position)
 
 func _physics_process(delta: float) -> void:

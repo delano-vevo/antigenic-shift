@@ -30,9 +30,60 @@ gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_dkusn")
 anim_offset_max = 1.0
 
-[node name="PoisonCloud" type="Area2D" unique_id=1374759853]
+[sub_resource type="Animation" id="Animation_6o75y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cd0ac"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6o75y"]
+_data = {
+&"RESET": SubResource("Animation_6o75y"),
+&"fade_out": SubResource("Animation_cd0ac")
+}
+
+[node name="PoisonCloud" type="Area2D" unique_id=1374759853 node_paths=PackedStringArray("anim_player")]
 script = ExtResource("1_u13n6")
 poison_status_tscn = ExtResource("2_cd0ac")
+anim_player = NodePath("AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2012911199]
 shape = SubResource("CircleShape2D_u13n6")
@@ -45,6 +96,12 @@ lifetime = 4.0
 process_material = SubResource("ParticleProcessMaterial_u13n6")
 
 [node name="Timeout" type="Timer" parent="." unique_id=1663357372]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=794902596]
+libraries/ = SubResource("AnimationLibrary_6o75y")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]

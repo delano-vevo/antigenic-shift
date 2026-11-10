@@ -100,6 +100,9 @@ size = Vector2(88, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c55ln"]
 size = Vector2(89, 38)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_oq1yu"]
+polygon = PackedVector2Array(-70, 0, 70, 0, 70, -50, -70, -50)
+
 [node name="Bunker" type="StaticBody2D" unique_id=1987288439 node_paths=PackedStringArray("animation_player")]
 collision_layer = 2
 script = ExtResource("1_nsj6q")
@@ -130,5 +133,8 @@ polygon = PackedVector2Array(-45, -1, -69, -1, -69, -48, 69, -48, 69, -1, 45, -1
 [node name="DoorCollider" type="CollisionShape2D" parent="." unique_id=1486646620]
 position = Vector2(-0.5, -20)
 shape = SubResource("RectangleShape2D_c55ln")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=362592778]
+occluder = SubResource("OccluderPolygon2D_oq1yu")
 
 [connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]

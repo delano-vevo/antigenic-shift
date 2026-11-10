@@ -3,13 +3,28 @@
 [ext_resource type="Script" uid="uid://b2y2q2mtkekw7" path="res://Entities/Player/Gunner/gunner.gd" id="1_wshob"]
 [ext_resource type="PackedScene" uid="uid://6oxi43kdkwqm" path="res://Entities/Player/Gunner/Gunshot.tscn" id="2_32mri"]
 [ext_resource type="Texture2D" uid="uid://cby83rfs7hy2q" path="res://Entities/Player/Assets/pixel_gunner.png" id="2_dmn7r"]
+[ext_resource type="PackedScene" uid="uid://dtn5gtlakf1kf" path="res://VFX/Misc/BulletShell.tscn" id="3_6afef"]
 [ext_resource type="Texture2D" uid="uid://dgo1fjceysf32" path="res://Entities/Player/Assets/rifle.png" id="3_wshob"]
 [ext_resource type="Script" uid="uid://6ro0y8s63tse" path="res://Entities/Player/Gunner/StateMachine/gunner_state_machine.gd" id="4_vxb2f"]
 [ext_resource type="Script" uid="uid://dhpylwkg7rqul" path="res://Entities/Player/Gunner/StateMachine/gunner_state_idle.gd" id="5_b7urb"]
+[ext_resource type="Texture2D" uid="uid://djmtc68v2rmwf" path="res://Entities/Player/Assets/muzzle_flash.png" id="6_fuu58"]
 [ext_resource type="Script" uid="uid://dr8oafyl8avtr" path="res://Entities/Player/Gunner/StateMachine/gunner_state_active.gd" id="6_lbs2c"]
 [ext_resource type="Script" uid="uid://bxp4kftwcottv" path="res://Entities/Player/Gunner/StateMachine/gunner_state_reload.gd" id="7_7yvui"]
 [ext_resource type="Texture2D" uid="uid://c0giomtwckmkf" path="res://GUI/Assets/reload_progress_empty.png" id="9_briys"]
 [ext_resource type="Texture2D" uid="uid://b6y0g786dout2" path="res://GUI/Assets/reload_progress_full.png" id="10_4wdjm"]
+[ext_resource type="Texture2D" uid="uid://dmccer7t75m0n" path="res://Entities/Player/Assets/gunner_flashlight_lightmap.png" id="11_mu8tp"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4wdjm"]
+polygon = PackedVector2Array(-6, 0, 6, 0, 6, -25, -6, -25)
+
+[sub_resource type="Gradient" id="Gradient_fuu58"]
+offsets = PackedFloat32Array(0, 0.6651584)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fuu58"]
+gradient = SubResource("Gradient_fuu58")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_briys"]
 radius = 7.0
@@ -105,10 +120,11 @@ _data = {
 &"reload_start": SubResource("Animation_4wdjm")
 }
 
-[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "animation_player", "state_machine") groups=["player"]]
+[node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "muzzle_flash", "flash_timer", "animation_player", "state_machine") groups=["player"]]
 collision_mask = 3
 script = ExtResource("1_wshob")
-gunshot = ExtResource("2_32mri")
+gunshot_tscn = ExtResource("2_32mri")
+bullet_shell_tscn = ExtResource("3_6afef")
 gun_sprite = NodePath("RifleSprite")
 body_sprite = NodePath("BodySprite")
 shoot_ray = NodePath("RifleSprite/ShootRay")
@@ -116,11 +132,18 @@ laser_line = NodePath("LaserSight")
 ray_end = NodePath("RifleSprite/RayEnd")
 shoot_cooldown_timer = NodePath("ShootCooldown")
 reload_timer = NodePath("ReloadTimer")
+muzzle_flash = NodePath("RifleSprite/MuzzleFlash")
+flash_timer = NodePath("RifleSprite/MuzzleFlash/Timer")
 shot_spread = 6.0
+shoot_cooldown = 0.15
+reload_time = 1.0
 animation_player = NodePath("AnimationPlayer")
 state_machine = NodePath("GunnerStateMachine")
 max_hp = 10.0
 metadata/_custom_type_script = "uid://y2p1ia4w8xis"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=106984890]
+occluder = SubResource("OccluderPolygon2D_4wdjm")
 
 [node name="BodySprite" type="Sprite2D" parent="." unique_id=2094699562]
 texture = ExtResource("2_dmn7r")
@@ -136,10 +159,33 @@ vframes = 2
 [node name="RayEnd" type="Node2D" parent="RifleSprite" unique_id=1781437611]
 position = Vector2(518.5, 0.5)
 
+[node name="RifleFlashlight" type="PointLight2D" parent="RifleSprite" unique_id=238104654]
+visible = false
+position = Vector2(104.5, 0.5)
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("11_mu8tp")
+
 [node name="ShootRay" type="RayCast2D" parent="RifleSprite" unique_id=1109266912]
 position = Vector2(18.5, 0.5)
 target_position = Vector2(500, 0)
 collision_mask = 7
+
+[node name="MuzzleFlash" type="Sprite2D" parent="RifleSprite" unique_id=656073254]
+visible = false
+position = Vector2(21.5, 0.5)
+texture = ExtResource("6_fuu58")
+offset = Vector2(16, 0)
+hframes = 3
+
+[node name="Timer" type="Timer" parent="RifleSprite/MuzzleFlash" unique_id=125256280]
+wait_time = 0.075
+one_shot = true
+
+[node name="PointLight2D" type="PointLight2D" parent="RifleSprite/MuzzleFlash" unique_id=434024398]
+color = Color(1, 1, 0.6901961, 1)
+texture = SubResource("GradientTexture2D_fuu58")
 
 [node name="LaserSight" type="Line2D" parent="." unique_id=2109681843]
 visible = false
@@ -191,3 +237,5 @@ texture_progress = ExtResource("10_4wdjm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=524238481]
 libraries/ = SubResource("AnimationLibrary_mu8tp")
+
+[connection signal="timeout" from="RifleSprite/MuzzleFlash/Timer" to="." method="_on_timer_timeout"]

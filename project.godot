@@ -33,6 +33,7 @@ mouse_cursor/custom_image_hotspot=Vector2(10, 10)
 [global_group]
 
 player=""
+bullet_shells=""
 
 [input]
 
@@ -106,3 +107,4 @@ debug_4={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+viewport/hdr_2d=true
