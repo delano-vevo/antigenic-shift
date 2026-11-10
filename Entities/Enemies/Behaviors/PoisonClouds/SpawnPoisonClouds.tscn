@@ -9,7 +9,7 @@ poison_cloud_tscn = ExtResource("2_wbfqi")
 metadata/_custom_type_script = "uid://dpvs24rjjdtky"
 
 [node name="NextCloudTimer" type="Timer" parent="." unique_id=1633520939]
-wait_time = 2.0
+wait_time = 3.0
 autostart = true
 
 [connection signal="timeout" from="NextCloudTimer" to="." method="_on_next_cloud_timer_timeout"]

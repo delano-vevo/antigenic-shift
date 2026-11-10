@@ -4,11 +4,12 @@ extends Entity
 
 ## Preloads
 # TODO: these should be loaded as-needed instead but fuck it we ball
-@onready var blood_particles_tscn: PackedScene = preload("res://VFX/BloodParticles.tscn")
+@onready var blood_particles_tscn: PackedScene = preload("res://VFX/Particles/BloodParticles.tscn")
 
 ## Editor nodes
 @export var sprite: Sprite2D
 @export var collision_shape: CollisionShape2D
+@export var hit_flash_anim: AnimationPlayer ## A simple AnimationPlayer that quickly toggles a hit flash shader effect on hit
 
 ## Gameplay variables
 @export var move_speed: float = 1.0
@@ -27,6 +28,10 @@ func get_shot(gunshot: Gunshot, collision_point: Vector2) -> void:
 	blood_part.global_position = global_position
 	blood_part.rotation = gunshot.global_position.direction_to(global_position).angle()
 	get_tree().get_current_scene().add_child(blood_part)
+	# Apply hit flash effect, if possible
+	if (hit_flash_anim != null):
+		hit_flash_anim.play("hit_flash")
+		await get_tree().create_timer(0.05).timeout
 	# The simplest possible "take-damage-then-die" effect
 	# Apply damage damping from damage_resist trait
 	take_damage(gunshot.damage_amt)

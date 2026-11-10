@@ -7,6 +7,9 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jxtp0"]
 height = 36.0
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_c55ln"]
+polygon = PackedVector2Array(0, 0, 20, 0, 20, -11, 15, -16, -14, -15, -19, 0)
+
 [node name="SpookyTree" type="StaticBody2D" unique_id=1411922807 node_paths=PackedStringArray("hit_particles")]
 collision_layer = 2
 collision_mask = 7
@@ -23,3 +26,6 @@ position = Vector2(2, -19)
 shape = SubResource("CapsuleShape2D_jxtp0")
 
 [node name="HitParticles" parent="." unique_id=899756037 instance=ExtResource("3_iammv")]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1357984358]
+occluder = SubResource("OccluderPolygon2D_c55ln")

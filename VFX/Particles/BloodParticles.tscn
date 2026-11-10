@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ct5kr6fke10lu"]
 
 [ext_resource type="Texture2D" uid="uid://6wds7uc1jis6" path="res://VFX/Assets/blood_particles.png" id="1_ewhc2"]
-[ext_resource type="Script" uid="uid://c5ue550m0h13g" path="res://VFX/blood_particles.gd" id="2_fgvpv"]
+[ext_resource type="Script" uid="uid://c5ue550m0h13g" path="res://VFX/Particles/blood_particles.gd" id="2_fgvpv"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lxfrf"]
 particles_animation = true
@@ -15,15 +15,12 @@ angle_min = -95.59999
 angle_max = 113.500015
 spread = 20.0
 flatness = 0.545
-initial_velocity_min = 95.439995
-initial_velocity_max = 161.81
+initial_velocity_min = 145.22
+initial_velocity_max = 398.31998
 gravity = Vector3(0, 0, 0)
-linear_accel_min = -100.0
-linear_accel_max = -91.7
-damping_min = 71.369
-damping_max = 85.477005
-scale_min = 0.79999995
-scale_max = 1.1999999
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+scale_min = 0.5
 anim_offset_max = 1.0
 turbulence_noise_strength = 3.75
 turbulence_influence_min = 0.025
@@ -37,10 +34,15 @@ material = SubResource("CanvasItemMaterial_lxfrf")
 emitting = false
 amount = 12
 texture = ExtResource("1_ewhc2")
-lifetime = 2.0
+lifetime = 0.25
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_lxfrf")
 script = ExtResource("2_fgvpv")
 
+[node name="Timer" type="Timer" parent="." unique_id=1154189952]
+wait_time = 0.2
+autostart = true
+
 [connection signal="finished" from="." to="." method="_on_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

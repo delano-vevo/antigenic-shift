@@ -49,15 +49,15 @@ func _process(delta: float) -> void:
 	if (Input.is_action_just_pressed("debug_1")):
 		var nz = spawn_zombie()
 		nz.global_position = get_global_mouse_position()
-	# Add some default upgrades to the player for testing
+	# Add some XP to the player for testing
 	if (Input.is_action_just_pressed("debug_2")):
 		_on_player_xp_get(5.0)
 	# Toggle the bunker's door for testing
 	if (Input.is_action_just_pressed("debug_3")):
 		bunker.toggle_open()
-	# Trigger a game over event to test the GUI
+	# Skip to the end of the day
 	if (Input.is_action_just_pressed("debug_4")):
-		_on_game_over()
+		day_night_controller.day_length_timer.start(1.0)
 
 ## Handles the camera control, calculating the best camera position & zoom by aggregating
 ## onscreen entities (and maybe even level data eventually)
@@ -69,6 +69,14 @@ func camera_control() -> void:
 	var cam_targ = player_controller.scientist.global_position.lerp(player_controller.gunner.global_position, 0.5)
 	# Apply calculated target to actual camera position
 	game_camera.global_position = cam_targ
+	# If the Gunner is currently active, apply extra look in aim direction
+	if (player_controller.current_player == player_controller.gunner):
+		var mouse_pos = get_global_mouse_position()
+		var offset_h: float = (mouse_pos.x - player_controller.gunner.global_position.x) / (Global.GAME_WIDTH/2)
+		var offset_v: float = (mouse_pos.y - player_controller.gunner.global_position.y) / (Global.GAME_HEIGHT/2)
+		game_camera.offset = Vector2(offset_h, offset_v) * Global.AIM_LOOK
+	else:
+		game_camera.offset = Vector2.ZERO
 
 ## Determines whether the current day is over by polling DayNightControl
 func is_day_over() -> bool:
@@ -173,7 +181,7 @@ func update_ammo_counter() -> void:
 ## Default - will just spawn using the first Strain in the array
 func spawn_zombie(strain_idx: int = 0) -> Enemy:
 	var new_zombie = viral_strains[strain_idx].spawn_zombie()
-	add_child(new_zombie)
+	environment.add_child(new_zombie) # Add to environment layer for YSort
 	return new_zombie
 
 ## Combines two ViralStrains into a novel strain

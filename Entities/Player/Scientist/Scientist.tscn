@@ -285,9 +285,10 @@ nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_tag2v")
 nodes/MoveStateMachine/position = Vector2(40, 80)
 node_connections = [&"output", 0, &"MoveStateMachine"]
 
-[node name="Scientist" type="CharacterBody2D" unique_id=800071096 node_paths=PackedStringArray("animation_player", "animation_tree", "state_machine") groups=["player"]]
+[node name="Scientist" type="CharacterBody2D" unique_id=800071096 node_paths=PackedStringArray("rope_connector", "animation_player", "animation_tree", "state_machine") groups=["player"]]
 collision_mask = 2
 script = ExtResource("1_kh60x")
+rope_connector = NodePath("RopeConnector")
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 state_machine = NodePath("ScientistStateMachine")
@@ -296,12 +297,12 @@ metadata/_custom_type_script = "uid://y2p1ia4w8xis"
 
 [node name="BodySprite" type="Sprite2D" parent="." unique_id=713036713]
 texture = ExtResource("2_ce73x")
-offset = Vector2(0, -5)
+offset = Vector2(0, -16)
 hframes = 3
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=556377564]
-position = Vector2(0, -4)
+position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_ce73x")
 
 [node name="ScientistStateMachine" type="Node" parent="." unique_id=2063532163 node_paths=PackedStringArray("idle_state", "running_state", "current_state", "parent")]
@@ -325,3 +326,6 @@ tree_root = SubResource("AnimationNodeBlendTree_ce73x")
 anim_player = NodePath("../AnimationPlayer")
 parameters/MoveStateMachine/Idle/blend_position = 0.0
 parameters/MoveStateMachine/Run/blend_position = 0.0
+
+[node name="RopeConnector" type="Node2D" parent="." unique_id=2042689891]
+position = Vector2(0, -15)

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dtn5gtlakf1kf"]
+
+[ext_resource type="Script" uid="uid://1x5d0chg4l87" path="res://VFX/Misc/bullet_shell.gd" id="1_g8o3c"]
+[ext_resource type="Texture2D" uid="uid://f88k1v1u1nsu" path="res://VFX/Assets/bullet_shell.png" id="1_qyuh0"]
+
+[node name="BulletShell" type="Sprite2D" unique_id=1317350648 groups=["bullet_shells"]]
+z_index = -1000
+texture = ExtResource("1_qyuh0")
+script = ExtResource("1_g8o3c")

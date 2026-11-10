@@ -12,6 +12,17 @@
 [ext_resource type="PackedScene" uid="uid://cidvq128oguok" path="res://GameLogic/DayNightController.tscn" id="10_wkp8b"]
 [ext_resource type="PackedScene" uid="uid://d1o1shsojx1q8" path="res://Environment/Buildings/Bunker.tscn" id="11_20pc6"]
 
+[sub_resource type="Environment" id="Environment_c55ln"]
+background_mode = 3
+ambient_light_color = Color(0.8901961, 0.9019608, 1, 1)
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.25
+tonemap_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.2
+glow_strength = 0.5
+
 [sub_resource type="Gradient" id="Gradient_lgr22"]
 offsets = PackedFloat32Array(0.011299435, 0.14124294, 0.59322035, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
@@ -48,6 +59,9 @@ environment = NodePath("Environment")
 bunker = NodePath("Environment/Bunker")
 viral_strains = [NodePath("ViralStrains/ViralStrain1")]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=149940273]
+environment = SubResource("Environment_c55ln")
+
 [node name="PlayerController" parent="." unique_id=279444740 node_paths=PackedStringArray("scientist", "gunner", "sled") instance=ExtResource("2_uu6xs")]
 process_mode = 1
 scientist = NodePath("../Environment/Scientist")
@@ -61,6 +75,7 @@ sled_accel = 400.0
 process_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=724756508]
+position_smoothing_enabled = true
 
 [node name="SnowParticles" type="GPUParticles2D" parent="Camera2D" unique_id=1498302365]
 z_index = 10
