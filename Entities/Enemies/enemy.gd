@@ -3,10 +3,12 @@ extends Entity
 ## This class implements core behaviors and properties for the game's zombies
 
 ## Preloads
+# TODO: these should be loaded as-needed instead but fuck it we ball
 @onready var blood_particles_tscn: PackedScene = preload("res://VFX/BloodParticles.tscn")
 
 ## Editor nodes
 @export var sprite: Sprite2D
+@export var collision_shape: CollisionShape2D
 
 ## Gameplay variables
 @export var move_speed: float = 1.0
@@ -45,6 +47,24 @@ func die() -> void:
 			behavior.on_death()
 		# Set to dead state, which should be implemented in ALL enemies
 		state_machine.set_state(state_machine.dead_state)
+		# Invoke the loot drop logic
+		drop_loot()
+
+## Called to spawn loot drops from the zombie
+## Can override in children to specialize drops/raise drop rates/etc.
+func drop_loot() -> void:
+	# TODO: implement some type of get_base_drop_chance in main.gd to account for stuff like
+	# skewing towards HP drops when the player needs HP, pumping up viral samples when the night
+	# is close to being done to push a level up, etc.
+	print("Rolling loot...")
+	for pickup_type in Enum.Pickups.values():
+		print(pickup_type)
+		var pickup_chance = randf()
+		if (pickup_chance <= 0.5):
+			print("dropping a pickup!")
+			var new_pickup = Global.PICKUPS[pickup_type].instantiate()
+			new_pickup.global_position = global_position
+			get_tree().get_current_scene().add_child(new_pickup)
 
 ## Called when the enemy attempts to attack the player
 func do_attack() -> void:

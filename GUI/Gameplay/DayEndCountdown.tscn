@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dnl8503b1dxb8"]
 
-[ext_resource type="Script" uid="uid://c3dxhvrbpr5hb" path="res://GUI/day_end_countdown.gd" id="1_lc3d2"]
+[ext_resource type="Script" uid="uid://c3dxhvrbpr5hb" path="res://GUI/Gameplay/day_end_countdown.gd" id="1_lc3d2"]
 [ext_resource type="Texture2D" uid="uid://bqakcrtu33aji" path="res://GUI/Assets/caution_texture.png" id="2_7onmn"]
 
 [sub_resource type="Animation" id="Animation_lkr7x"]

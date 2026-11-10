@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1qi8w7ix7ip4"]
 
-[ext_resource type="Script" uid="uid://8a6f7dkocnyt" path="res://GUI/health_counters.gd" id="1_j58ls"]
+[ext_resource type="Script" uid="uid://8a6f7dkocnyt" path="res://GUI/Gameplay/health_counters.gd" id="1_j58ls"]
 [ext_resource type="Texture2D" uid="uid://djpl4wmwptwv0" path="res://GUI/Assets/scientist_head.png" id="2_i6yk4"]
 [ext_resource type="Texture2D" uid="uid://cb8mo63putrsg" path="res://GUI/Assets/gunner_head.png" id="3_hjmaf"]
 [ext_resource type="Texture2D" uid="uid://df5oqlrprx5j2" path="res://GUI/Assets/health_bar_back.png" id="3_on4v7"]

@@ -4,6 +4,7 @@ extends Node2D
 ## Resource loads
 @onready var viral_strain = preload("res://Entities/Enemies/ViralStrains/viral_strain.gd")
 @onready var day_end_gui_tscn: PackedScene = preload("res://GUI/DayEnd/DayEndGUI.tscn")
+@onready var game_over_gui_tscn: PackedScene = preload("res://GUI/GameOver/GameOverGUI.tscn")
 
 ## Editor nodes
 @export var player_controller: Node2D ## The controller that handles the two Player characters
@@ -23,6 +24,8 @@ extends Node2D
 @export var cure_progress_per_level: float = 10.0 ## The amount of cure progress rewarded for each successful level-up (if selected)
 @onready var last_upgrade: PlayerUpgrade ## Tracks the last upgrade applied to the player(s)
 @onready var day_end_gui: Control ## The Control node housing the end of day GUI
+@onready var current_day: int = 0 ## The current day cycle
+@export var max_days: int = 14 ## The number of days the player has to find a cure before game over
 
 ## Initialize the game
 func _ready() -> void:
@@ -33,7 +36,7 @@ func _ready() -> void:
 	update_ammo_counter()
 	_on_player_hp_get()
 	# Start the first day
-	day_night_controller.start_day()
+	start_next_day()
 
 ## Game loop
 func _process(delta: float) -> void:
@@ -48,13 +51,13 @@ func _process(delta: float) -> void:
 		nz.global_position = get_global_mouse_position()
 	# Add some default upgrades to the player for testing
 	if (Input.is_action_just_pressed("debug_2")):
-		_on_player_xp_get(10)
+		_on_player_xp_get(5.0)
 	# Toggle the bunker's door for testing
 	if (Input.is_action_just_pressed("debug_3")):
 		bunker.toggle_open()
-	# Trigger an end of day event to test the GUI
+	# Trigger a game over event to test the GUI
 	if (Input.is_action_just_pressed("debug_4")):
-		end_day()
+		_on_game_over()
 
 ## Handles the camera control, calculating the best camera position & zoom by aggregating
 ## onscreen entities (and maybe even level data eventually)
@@ -76,6 +79,7 @@ func end_day() -> void:
 	# Pause the game
 	get_tree().paused = true
 	# Apply the end of day UI layer
+	gameplay_gui.stop_countdown()
 	gameplay_gui.visible = false
 	day_end_gui = day_end_gui_tscn.instantiate()
 	# Add GUI to tree
@@ -83,6 +87,9 @@ func end_day() -> void:
 	# Check for a levelup and pass info along to the GUI node
 	# TODO: if cure_progress ever stops being a percentage this will need additional math
 	day_end_gui.init(cure_progress, xp == next_level_xp)
+	# Check for a level-up and reset the XP counter if needed
+	if (xp == next_level_xp):
+		do_level_up()
 	# Connect signals from the day_end_gui to relevant endpoints
 	# Endpoints in Main for game control
 	day_end_gui.continue_game.connect(start_next_day)
@@ -92,9 +99,29 @@ func end_day() -> void:
 ## Starts a new day - signalled from day_end_gui
 func start_next_day() -> void:
 	print("Starting a new day!")
-	day_end_gui.queue_free()
+	# Increment the day counter
+	current_day += 1
+	# Update relevant UI values
+	gameplay_gui.start_day(current_day)
+	# Check if this causes a game over
+	if (current_day >= max_days):
+		print("You're out of time! Game over :(")
+	# Unpause the game and return to the regular gameplay GUI
+	if (day_end_gui != null):
+		day_end_gui.queue_free()
 	get_tree().paused = false
 	gameplay_gui.visible = true
+	# Restart the day-night controller
+	day_night_controller.start_day()
+
+## Called on end-of-day level-up - zeroes out XP and calculates the new next_level value
+func do_level_up() -> void:
+	print("Level up")
+	# TODO: this is laughably simplistic right now as a proof of concept, this will definitely need tweaked
+	xp = 0
+	next_level_xp *= 1.1
+	_on_player_xp_get(0) # Call an empty signal to update UI elements
+	print("New xp target: " + str(next_level_xp))
 
 ## For now this method is kind of a nothing because cure_progress is just implemented as a flat
 ## value indicating a percentage out of 100; this method is here as a black box in case that ends
@@ -117,7 +144,6 @@ func player_upgrade(upgrade: PlayerUpgrade = null) -> void:
 	# seems like it just has to be a bad idea but here we are
 	last_upgrade = upgrade
 	print(upgrade)
-	
 
 ## Apply progress towards finding the cure
 ## If no amount is specified, value will default to the onboard variable
@@ -177,6 +203,10 @@ func _on_player_xp_get(amount: float) -> void:
 ## Handles a game_over signal from any source that may trigger a game over state
 func _on_game_over() -> void:
 	print("Game freaking over!")
+	get_tree().paused = true
+	gameplay_gui.visible = false
+	var game_over_gui = game_over_gui_tscn.instantiate()
+	gui_layer.add_child(game_over_gui)
 
 ## Start the countdown in the GUI when signaled from the day/night controller
 func _on_day_night_controller_countdown_begin() -> void:

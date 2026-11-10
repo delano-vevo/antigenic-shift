@@ -22,3 +22,11 @@ enum PlayerUpgradeTypes {
 	SHOT_DAMAGE,
 	SIZE ## Special ending value to allow easy access via PlayerUpgradeTypes.SIZE to the number of upgrade types available
 }
+
+## All types of pickups
+enum Pickups {
+	AMMO,
+	HP,
+	VIRAL_SAMPLE,
+	#SIZE ## Special ending value to allow easy access via Pickups.SIZE to the number of pickup types
+}

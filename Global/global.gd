@@ -17,3 +17,10 @@ const PLAYER_UPGRADES: Dictionary = {
 	Enum.PlayerUpgradeTypes.HP: preload("res://Entities/Player/Upgrades/hp_upgrade.gd"),
 	Enum.PlayerUpgradeTypes.SHOT_DAMAGE: preload("res://Entities/Player/Upgrades/shot_damage_upgrade.gd"),
 }
+
+## Maps enum values from Pickups to actual preloaded resources
+const PICKUPS: Dictionary = {
+	Enum.Pickups.HP: preload("res://Environment/Pickups/HPPickup.tscn"),
+	Enum.Pickups.AMMO: preload("res://Environment/Pickups/AmmoPickup.tscn"),
+	Enum.Pickups.VIRAL_SAMPLE: preload("res://Environment/Pickups/ViralSample.tscn"),
+}

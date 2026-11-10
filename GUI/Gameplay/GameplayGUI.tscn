@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cepa6r8alwr13"]
+
+[ext_resource type="Script" uid="uid://ccunuihm8nopg" path="res://GUI/Gameplay/gui.gd" id="1_17ifr"]
+[ext_resource type="PackedScene" uid="uid://b80qklw4og6fp" path="res://GUI/Gameplay/AmmoCounter.tscn" id="2_1x7qj"]
+[ext_resource type="PackedScene" uid="uid://dnl8503b1dxb8" path="res://GUI/Gameplay/DayEndCountdown.tscn" id="2_k501a"]
+[ext_resource type="PackedScene" uid="uid://b1qi8w7ix7ip4" path="res://GUI/Gameplay/HealthCounters.tscn" id="3_1x7qj"]
+[ext_resource type="PackedScene" uid="uid://cvh6mg34x28xg" path="res://GUI/Gameplay/XPBar.tscn" id="4_3mo81"]
+[ext_resource type="PackedScene" uid="uid://c71j0xup8e02" path="res://GUI/Gameplay/DayLengthRemaining.tscn" id="5_eptif"]
+[ext_resource type="PackedScene" uid="uid://cfriagurqqnqk" path="res://GUI/Gameplay/CurrentDayCount.tscn" id="7_mrf1s"]
+
+[node name="GameplayGUI" type="Control" unique_id=1919894194 node_paths=PackedStringArray("ammo_counter", "health_bars", "xp_bar", "day_remaining", "day_counter")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_17ifr")
+ammo_counter = NodePath("AmmoCounter")
+health_bars = NodePath("HealthCounters")
+xp_bar = NodePath("XPBar")
+day_remaining = NodePath("DayLengthRemaining")
+day_counter = NodePath("CurrentDayCount")
+day_end_countdown_tscn = ExtResource("2_k501a")
+
+[node name="AmmoCounter" parent="." unique_id=269784810 instance=ExtResource("2_1x7qj")]
+layout_mode = 0
+
+[node name="HealthCounters" parent="." unique_id=142337105 instance=ExtResource("3_1x7qj")]
+layout_mode = 1
+
+[node name="XPBar" parent="." unique_id=765427069 instance=ExtResource("4_3mo81")]
+layout_mode = 1
+
+[node name="DayLengthRemaining" parent="." unique_id=238582375 instance=ExtResource("5_eptif")]
+layout_mode = 1
+
+[node name="CurrentDayCount" parent="." unique_id=888736922 instance=ExtResource("7_mrf1s")]
+layout_mode = 1

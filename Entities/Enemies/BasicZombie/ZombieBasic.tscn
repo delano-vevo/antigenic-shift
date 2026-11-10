@@ -39,6 +39,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 16)]
+}
 
 [sub_resource type="Animation" id="Animation_pk82h"]
 resource_name = "bite_left"
@@ -94,6 +106,114 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(1.2, 0.8), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rsmnm"]
+resource_name = "die_left"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [13]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 8), Vector2(0, 16)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.19999999),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 1.3), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop_anim"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_b3k45"]
+resource_name = "die_right"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 8), Vector2(0, 16)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.10000001, 0.19999999),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 1.3), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop_anim"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_dp0cu"]
@@ -169,6 +289,8 @@ _data = {
 &"RESET": SubResource("Animation_520xa"),
 &"bite_left": SubResource("Animation_pk82h"),
 &"bite_right": SubResource("Animation_vc84f"),
+&"die_left": SubResource("Animation_rsmnm"),
+&"die_right": SubResource("Animation_b3k45"),
 &"idle_left": SubResource("Animation_dp0cu"),
 &"idle_right": SubResource("Animation_krbvh"),
 &"move_left": SubResource("Animation_48u8m"),
@@ -196,6 +318,28 @@ blend_point_2/pos = 0.0
 blend_point_2/name = &"bite_right 2"
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_b3k45"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rsmnm"]
+animation = &"die_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_10xwd"]
+animation = &"die_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f6yl6"]
+animation = &"die_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_b3k45"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_rsmnm")
+blend_point_0/pos = 1.0
+blend_point_0/name = &"die_right"
+blend_point_1/node = SubResource("AnimationNodeAnimation_10xwd")
+blend_point_1/pos = -1.0
+blend_point_1/name = &"die_left"
+blend_point_2/node = SubResource("AnimationNodeAnimation_f6yl6")
+blend_point_2/pos = 0.0
+blend_point_2/name = &"die_right 2"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_rsmnm"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_krbvh"]
 animation = &"idle_left"
@@ -256,26 +400,31 @@ states/Start/position = Vector2(211, 94)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_n51fy"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_b56ly"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_k3eum"), "Idle", "End", SubResource("AnimationNodeStateMachineTransition_25hh7")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_krbvh"]
-graph_offset = Vector2(-370.05676, 147.53738)
-nodes/output/position = Vector2(480, 220)
+graph_offset = Vector2(-270.42395, 268.28314)
+nodes/output/position = Vector2(700, 280)
 nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_6cp86")
 nodes/MoveStateMachine/position = Vector2(-20, 140)
 nodes/Bite_OneShot/node = SubResource("AnimationNodeOneShot_b3k45")
 nodes/Bite_OneShot/position = Vector2(300, 220)
 nodes/Bite_BlendSpace/node = SubResource("AnimationNodeBlendSpace1D_pk82h")
-nodes/Bite_BlendSpace/position = Vector2(0, 360)
-node_connections = [&"output", 0, &"Bite_OneShot", &"Bite_OneShot", 0, &"MoveStateMachine", &"Bite_OneShot", 1, &"Bite_BlendSpace"]
+nodes/Bite_BlendSpace/position = Vector2(-20, 400)
+nodes/Death_OneShot/node = SubResource("AnimationNodeOneShot_rsmnm")
+nodes/Death_OneShot/position = Vector2(500, 300)
+nodes/Death_BlendSpace/node = SubResource("AnimationNodeBlendSpace1D_b3k45")
+nodes/Death_BlendSpace/position = Vector2(200, 540)
+node_connections = [&"output", 0, &"Death_OneShot", &"Bite_OneShot", 0, &"MoveStateMachine", &"Bite_OneShot", 1, &"Bite_BlendSpace", &"Death_OneShot", 0, &"Bite_OneShot", &"Death_OneShot", 1, &"Death_BlendSpace"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5ibuc"]
 radius = 14.0
 height = 40.0
 
-[node name="ZombieBasic" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "animation_player", "animation_tree", "state_machine")]
+[node name="ZombieBasic" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "collision_shape", "animation_player", "animation_tree", "state_machine")]
 collision_layer = 5
 collision_mask = 3
 script = ExtResource("1_lx0oi")
 bite_fx = ExtResource("2_vc84f")
 sprite = NodePath("Sprite2D")
+collision_shape = NodePath("CollisionShape2D")
 move_speed = 30.0
 detect_range = 100.0
 lose_range = 50.0
@@ -291,7 +440,7 @@ position = Vector2(0, 16)
 texture = ExtResource("2_l8qv0")
 offset = Vector2(0, -16)
 hframes = 4
-vframes = 3
+vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=349458790]
 position = Vector2(0, 1)
@@ -350,6 +499,10 @@ parameters/Bite_OneShot/active = false
 parameters/Bite_OneShot/internal_active = false
 parameters/Bite_OneShot/request = 0
 parameters/Bite_BlendSpace/blend_position = 0.0
+parameters/Death_OneShot/active = false
+parameters/Death_OneShot/internal_active = false
+parameters/Death_OneShot/request = 0
+parameters/Death_BlendSpace/blend_position = 0.0
 
 [node name="BiteArea" type="Area2D" parent="." unique_id=664548896]
 
