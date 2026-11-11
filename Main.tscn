@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://prhhivb3hdu0" path="res://Environment/SpookyTree/SpookyTree.tscn" id="8_03owx"]
 [ext_resource type="PackedScene" uid="uid://dsfl2uebirp3w" path="res://Environment/Truck/Truck.tscn" id="9_03owx"]
 [ext_resource type="PackedScene" uid="uid://cidvq128oguok" path="res://GameLogic/DayNightController.tscn" id="10_wkp8b"]
+[ext_resource type="PackedScene" uid="uid://8f664knh5krt" path="res://Entities/Enemies/Spitter/ZombieSpitter.tscn" id="11_5vvyt"]
 [ext_resource type="PackedScene" uid="uid://d1o1shsojx1q8" path="res://Environment/Buildings/Bunker.tscn" id="11_20pc6"]
 [ext_resource type="PackedScene" uid="uid://d04iny2717r0y" path="res://GameLogic/ZombieSpawner.tscn" id="12_5vvyt"]
 
@@ -179,7 +180,11 @@ position = Vector2(392, 336)
 [node name="Bunker" parent="Environment" unique_id=1987288439 instance=ExtResource("11_20pc6")]
 position = Vector2(280, -56)
 
+[node name="ZombieSpitter" parent="Environment" unique_id=1747262689 instance=ExtResource("11_5vvyt")]
+position = Vector2(328, 240)
+
 [node name="ZombieSpawner" parent="." unique_id=1447968247 instance=ExtResource("12_5vvyt")]
+process_mode = 4
 
 [connection signal="countdown_begin" from="DayNightController" to="." method="_on_day_night_controller_countdown_begin"]
 [connection signal="game_over" from="DayNightController" to="." method="_on_game_over"]

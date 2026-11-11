@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bgsppwxg3sv0i"]
+
+[ext_resource type="Script" uid="uid://0j88c5hpchi6" path="res://Entities/Enemies/Spitter/spitter_projectile.gd" id="1_3rvv0"]
+[ext_resource type="Texture2D" uid="uid://x6jl2b003r2d" path="res://Entities/Enemies/Assets/spitter_projectile.png" id="2_cm15f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c55ln"]
+radius = 9.0
+
+[node name="SpitterProjectile" type="CharacterBody2D" unique_id=1630370336 node_paths=PackedStringArray("sprite")]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_3rvv0")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1821145108]
+texture = ExtResource("2_cm15f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=971049555]
+shape = SubResource("CircleShape2D_c55ln")
+
+[node name="Lifetime" type="Timer" parent="." unique_id=836094407]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

@@ -5,7 +5,6 @@ extends State
 @export var charge_state: State
 
 func state_entered(parent: Entity) -> void:
-	print("I chase-a the player!")
 	parent.move_anim_playback.travel("Move")
 
 func physics_process(delta: float, parent: Entity) -> State:
@@ -20,7 +19,6 @@ func physics_process(delta: float, parent: Entity) -> State:
 	elif (parent.global_position.distance_to(nearest_player.global_position) <= parent.attack_range):
 		# See if the player is within attack range, and if so, apply the attack state
 		parent.do_attack()
-		# Abort the rest of the state execution without actually changing states (deferred to attack Behavior)
 		return charge_state
 	# Apply movement in the player's direction
 	parent.velocity = parent.global_position.direction_to(nearest_player.global_position).normalized() * parent.move_speed
