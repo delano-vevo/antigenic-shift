@@ -44,7 +44,7 @@ func try_shoot_gun() -> bool:
 		this_shot.shoot(shoot_ray.duplicate(), shot_spread)
 		# Do the VFX
 		# Muzzle flash
-		muzzle_flash.frame = randi_range(0,muzzle_flash.hframes*muzzle_flash.vframes)
+		muzzle_flash.frame = randi_range(0,(muzzle_flash.hframes*muzzle_flash.vframes)-1)
 		muzzle_flash.visible = true
 		flash_timer.start()
 		# Bullet shell

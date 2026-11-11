@@ -4,7 +4,7 @@ extends State
 @export var reload_state: State
 
 func state_entered(parent: Entity) -> void:
-	parent.laser_line.visible = true
+	pass#parent.laser_line.visible = true
 
 func physics_process(delta: float, parent: Entity) -> State:
 	# Aim the gun with the mouse pointer

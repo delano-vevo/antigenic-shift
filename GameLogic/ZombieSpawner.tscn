@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d04iny2717r0y"]
+
+[ext_resource type="Script" uid="uid://bkkyd7v8lsegy" path="res://GameLogic/zombie_spawner.gd" id="1_0di6q"]
+[ext_resource type="PackedScene" uid="uid://ps8vlpkd231c" path="res://Entities/Enemies/ViralStrains/ViralStrain1.tscn" id="2_gndbw"]
+[ext_resource type="PackedScene" uid="uid://k6vagyl5lmjf" path="res://GameLogic/ZombieSpawnTimer.tscn" id="3_ogt6e"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ogt6e"]
+radius = 16.0
+height = 48.0
+
+[node name="ZombieSpawner" type="Node2D" unique_id=1447968247 node_paths=PackedStringArray("viral_strains", "spawn_checker")]
+script = ExtResource("1_0di6q")
+viral_strains = [NodePath("ViralStrain1")]
+spawn_checker = NodePath("ValidSpawnChecker")
+
+[node name="ViralStrain1" parent="." unique_id=1554667474 instance=ExtResource("2_gndbw")]
+
+[node name="ZombieSpawnTimer" parent="." unique_id=2137874036 node_paths=PackedStringArray("strain") instance=ExtResource("3_ogt6e")]
+wait_time = 5.0
+autostart = true
+strain = NodePath("../ViralStrain1")
+spawn_batch_size = 2
+
+[node name="ValidSpawnChecker" type="Area2D" parent="." unique_id=1667163827]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ValidSpawnChecker" unique_id=380592559]
+shape = SubResource("CapsuleShape2D_ogt6e")
+
+[connection signal="spawn_zombie" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_spawn_zombie"]

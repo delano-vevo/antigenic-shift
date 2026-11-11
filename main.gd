@@ -2,7 +2,6 @@ extends Node2D
 ## The main game controller, responsible for the synthesis and handling of the game systems
 
 ## Resource loads
-@onready var viral_strain = preload("res://Entities/Enemies/ViralStrains/viral_strain.gd")
 @onready var day_end_gui_tscn: PackedScene = preload("res://GUI/DayEnd/DayEndGUI.tscn")
 @onready var game_over_gui_tscn: PackedScene = preload("res://GUI/GameOver/GameOverGUI.tscn")
 
@@ -15,6 +14,7 @@ extends Node2D
 @export var day_night_controller: Node2D ## The controller for the day/night cycle
 @export var environment: Node2D ## The Node that contains all of the environment objects in the main game loop (incl. the players)
 @export var bunker: EnvironmentObject ## The Bunker the player returns to at the end of the day
+@export var zombie_spawner: Node2D ## The Node responsible for handling zombie spawning logic
 
 ## Gameplay variables
 @export var viral_strains: Array[ViralStrain]
@@ -39,7 +39,7 @@ func _ready() -> void:
 	start_next_day()
 
 ## Game loop
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Invoke the camera controller
 	camera_control()
 	# Update the countdown timer
@@ -47,7 +47,8 @@ func _process(delta: float) -> void:
 	# Parse debug inputs
 	# Spawn zombies at the mouse cursor for testing
 	if (Input.is_action_just_pressed("debug_1")):
-		var nz = spawn_zombie()
+		var nz = zombie_spawner.spawn_zombie()
+		environment.add_child(nz)
 		nz.global_position = get_global_mouse_position()
 	# Add some XP to the player for testing
 	if (Input.is_action_just_pressed("debug_2")):
@@ -177,19 +178,6 @@ func update_ammo_counter() -> void:
 	gameplay_gui.ammo_counter.set_ammo_clip(player_controller.gunner.clip_current)
 	gameplay_gui.ammo_counter.set_ammo_total(player_controller.gunner.bullets)
 
-## Spawns a zombie from a specific ViralStrain at a provided index
-## Default - will just spawn using the first Strain in the array
-func spawn_zombie(strain_idx: int = 0) -> Enemy:
-	var new_zombie = viral_strains[strain_idx].spawn_zombie()
-	environment.add_child(new_zombie) # Add to environment layer for YSort
-	return new_zombie
-
-## Combines two ViralStrains into a novel strain
-func combine_strains(strain_a: ViralStrain, strain_b: ViralStrain) -> ViralStrain:
-	var strain = viral_strain.new()
-	add_child(strain)
-	return null
-
 ## Update the ammo counter GUI on ammo_changed signal from the Gunner player character
 func _on_gunner_ammo_changed() -> void:
 	update_ammo_counter()
@@ -219,3 +207,47 @@ func _on_game_over() -> void:
 ## Start the countdown in the GUI when signaled from the day/night controller
 func _on_day_night_controller_countdown_begin() -> void:
 	gameplay_gui.start_countdown(day_night_controller.day_countdown_timer)
+
+## Grab a new zombie from a zombie_spawner signal and add it to the game
+## Zombies will be spawned just outside the bounds of the game camera to keep the player surrounded
+func _on_zombie_spawner_zombie_spawned(zombie: Enemy) -> void:
+	print("Spawning a zombie!")
+	var viewport_rect = get_viewport().get_visible_rect().size
+	var valid_spawn: bool = false
+	var spawn_pos: Vector2
+	var num_attempts: int = 0
+	# Nest this in a while loop to retry randomizing position if an invalid spawn
+	# (e.g. trying to spawn a zombie inside of a wall) is detected
+	while (!valid_spawn):
+		var which_dir: int = randi_range(0, 3)
+		match which_dir:
+			# TODO: account for camera offset here!!!
+			0: # Right
+				var spawn_x = game_camera.global_position.x + (viewport_rect.x/2)
+				var spawn_y = game_camera.global_position.y + randf_range(-viewport_rect.y/2, viewport_rect.y/2)
+				spawn_pos = Vector2(spawn_x, spawn_y)
+			1: # Left
+				var spawn_x = game_camera.global_position.x - (viewport_rect.x/2)
+				var spawn_y = game_camera.global_position.y + randf_range(-viewport_rect.y/2, viewport_rect.y/2)
+				spawn_pos = Vector2(spawn_x, spawn_y)
+			2: # Up
+				var spawn_x = game_camera.global_position.x + randf_range(-viewport_rect.x/2, viewport_rect.x/2)
+				var spawn_y = game_camera.global_position.y - (viewport_rect.y/2)
+				spawn_pos = Vector2(spawn_x, spawn_y)
+			3: # Down
+				var spawn_x = game_camera.global_position.x + randf_range(-viewport_rect.x/2, viewport_rect.x/2)
+				var spawn_y = game_camera.global_position.y + (viewport_rect.y/2)
+				spawn_pos = Vector2(spawn_x, spawn_y)
+		# Check the validity of the position by trying collisions with the zombie_spawner spawn_checker area2D
+		zombie_spawner.spawn_checker.global_position = spawn_pos
+		if (zombie_spawner.spawn_checker.get_overlapping_bodies().size() == 0):
+			valid_spawn = true
+		else:
+			num_attempts += 1
+		# Increment the attempts counter and throw a warning if threshold has been crossed
+		if (num_attempts > 100):
+			print("Couldn't spawn a zombie! Something's wrong with the loop!")
+			valid_spawn = true
+	# Pass the zombie into the environment to join the fray
+	zombie.global_position = spawn_pos
+	environment.add_child(zombie)
