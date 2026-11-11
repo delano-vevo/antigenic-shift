@@ -28,3 +28,14 @@ func apply_trait(zombie: Enemy) -> void:
 	elif (trait_type == Enum.TraitType.STAT_CHANGE_PERCENT):
 		# Apply a percentage change to the provided stat
 		zombie.set(Global.STAT_NAMES[trait_stat], zombie.get(Global.STAT_NAMES[trait_stat]) * (1+trait_amount))
+
+# Custom _to_string override for debug output
+func _to_string() -> String:
+	var ret_str: String = ""
+	if (trait_type == Enum.TraitType.BEHAVIOR):
+		ret_str += "Behavior: " + str(behavior)
+	elif (trait_type == Enum.TraitType.STAT_CHANGE_FLAT):
+		ret_str += "Flat stat change: " + str(trait_amount) + " " + Global.STAT_NAMES[trait_stat]
+	elif (trait_type == Enum.TraitType.STAT_CHANGE_PERCENT):
+		ret_str += "% stat change: " + str(trait_amount) + " " + Global.STAT_NAMES[trait_stat]
+	return ret_str

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://daavgfd7n2xhx" path="res://GUI/Gameplay/current_day_count.gd" id="1_vbeld"]
 
-[node name="CurrentDayCount" type="Control" unique_id=888736922 node_paths=PackedStringArray("day_count_label", "show_timer")]
+[node name="CurrentDayCount" type="Control" unique_id=888736922 node_paths=PackedStringArray("day_count_label", "shift_label", "show_timer")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vbeld")
 day_count_label = NodePath("Label")
+shift_label = NodePath("Label2")
 show_timer = NodePath("Timer")
 
 [node name="Label" type="Label" parent="." unique_id=2074868334]
@@ -33,6 +34,21 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 42
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=855852294]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -133.0
+offset_top = 40.0
+offset_right = 133.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.72758096, 0.605138, 0.21595967, 1)
+theme_override_font_sizes/font_size = 16
+text = "A new strain of the virus has mutated..."
 
 [node name="Timer" type="Timer" parent="." unique_id=1574660775]
 wait_time = 5.0

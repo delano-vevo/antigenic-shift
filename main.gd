@@ -56,9 +56,15 @@ func _process(_delta: float) -> void:
 	# Toggle the bunker's door for testing
 	if (Input.is_action_just_pressed("debug_3")):
 		bunker.toggle_open()
-	# Skip to the end of the day
+	# Trigger an antigenic shift in the zombie spawner by combining two random strains
 	if (Input.is_action_just_pressed("debug_4")):
-		day_night_controller.day_length_timer.start(1.0)
+		zombie_spawner.combine_random_strains()
+		print(zombie_spawner.viral_strains)
+		for strain in zombie_spawner.viral_strains:
+			print("Strain:")
+			print(strain)
+			print("--------\n")
+		#day_night_controller.day_length_timer.start(1.0)
 
 ## Handles the camera control, calculating the best camera position & zoom by aggregating
 ## onscreen entities (and maybe even level data eventually)
@@ -108,6 +114,9 @@ func end_day() -> void:
 ## Starts a new day - signalled from day_end_gui
 func start_next_day() -> void:
 	print("Starting a new day!")
+	# Add a new viral strain to the spawner
+	zombie_spawner.combine_random_strains()
+	print(zombie_spawner.viral_strains)
 	# Increment the day counter
 	current_day += 1
 	# Update relevant UI values
