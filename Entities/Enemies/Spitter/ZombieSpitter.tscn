@@ -430,7 +430,7 @@ _data = {
 &"hit_flash": SubResource("Animation_10xwd")
 }
 
-[node name="ZombieSpitter" type="CharacterBody2D" unique_id=1747262689 node_paths=PackedStringArray("sprite", "collision_shape", "hit_flash_anim", "animation_player", "animation_tree", "state_machine")]
+[node name="ZombieSpitter" type="CharacterBody2D" unique_id=1747262689 node_paths=PackedStringArray("sprite", "collision_shape", "hit_flash_anim", "animation_player", "animation_tree", "state_machine") groups=["zombies"]]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_4l4lv")

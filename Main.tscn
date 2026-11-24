@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://8f664knh5krt" path="res://Entities/Enemies/Spitter/ZombieSpitter.tscn" id="11_5vvyt"]
 [ext_resource type="PackedScene" uid="uid://d1o1shsojx1q8" path="res://Environment/Buildings/Bunker.tscn" id="11_20pc6"]
 [ext_resource type="PackedScene" uid="uid://d04iny2717r0y" path="res://GameLogic/ZombieSpawner.tscn" id="12_5vvyt"]
+[ext_resource type="PackedScene" uid="uid://dvvpemgv4u0ug" path="res://Entities/Enemies/Thorny/Thorny.tscn" id="12_c6i3y"]
 
 [sub_resource type="Environment" id="Environment_c55ln"]
 background_mode = 3
@@ -183,8 +184,11 @@ position = Vector2(280, -56)
 [node name="ZombieSpitter" parent="Environment" unique_id=1747262689 instance=ExtResource("11_5vvyt")]
 position = Vector2(328, 240)
 
+[node name="Thorny" parent="Environment" unique_id=2028671937 instance=ExtResource("12_c6i3y")]
+position = Vector2(48, 120)
+
 [node name="ZombieSpawner" parent="." unique_id=1447968247 instance=ExtResource("12_5vvyt")]
-process_mode = 4
+metadata/_edit_lock_ = true
 
 [connection signal="countdown_begin" from="DayNightController" to="." method="_on_day_night_controller_countdown_begin"]
 [connection signal="game_over" from="DayNightController" to="." method="_on_game_over"]

@@ -1,6 +1,7 @@
 extends State
 
 func state_entered(parent: Entity) -> void:
+	remove_from_group("zombies")
 	# Disable collisions
 	parent.collision_shape.disabled = true
 	# Fire the death animation

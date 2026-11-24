@@ -57,6 +57,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(0, 16)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:material:shader_parameter/hit_flash")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.001),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_pk82h"]
 resource_name = "spit_left"
@@ -404,7 +416,7 @@ states/Start/position = Vector2(211, 94)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_n51fy"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_b56ly"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_k3eum"), "Idle", "End", SubResource("AnimationNodeStateMachineTransition_25hh7")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_krbvh"]
-graph_offset = Vector2(-291, 137)
+graph_offset = Vector2(-325, 268)
 nodes/output/position = Vector2(700, 280)
 nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_6cp86")
 nodes/MoveStateMachine/position = Vector2(-20, 140)
@@ -459,7 +471,7 @@ _data = {
 &"hit_flash": SubResource("Animation_10xwd")
 }
 
-[node name="ZombieBasic" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "collision_shape", "hit_flash_anim", "animation_player", "animation_tree", "state_machine")]
+[node name="ZombieBasic" type="CharacterBody2D" unique_id=1721419513 node_paths=PackedStringArray("sprite", "collision_shape", "hit_flash_anim", "animation_player", "animation_tree", "state_machine") groups=["zombies"]]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_lx0oi")

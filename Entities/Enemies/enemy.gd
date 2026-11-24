@@ -61,12 +61,9 @@ func drop_loot() -> void:
 	# TODO: implement some type of get_base_drop_chance in main.gd to account for stuff like
 	# skewing towards HP drops when the player needs HP, pumping up viral samples when the night
 	# is close to being done to push a level up, etc.
-	print("Rolling loot...")
 	for pickup_type in Enum.Pickups.values():
-		print(pickup_type)
 		var pickup_chance = randf()
 		if (pickup_chance <= 0.5):
-			print("dropping a pickup!")
 			var new_pickup = Global.PICKUPS[pickup_type].instantiate()
 			new_pickup.global_position = global_position
 			get_tree().get_current_scene().add_child(new_pickup)
@@ -76,3 +73,7 @@ func do_attack() -> void:
 	# Apply attack logic from Behaviors
 	for behavior in behaviors:
 		behavior.on_attack()
+
+## Deactivate the AnimationTree (called from death animation end)
+func stop_anim() -> void:
+	animation_tree.active = false

@@ -8,7 +8,7 @@ height = 42.0
 
 [node name="Sled" type="CharacterBody2D" unique_id=250035303]
 z_index = -1
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 
 [node name="SledSprite" type="Sprite2D" parent="." unique_id=858411517]

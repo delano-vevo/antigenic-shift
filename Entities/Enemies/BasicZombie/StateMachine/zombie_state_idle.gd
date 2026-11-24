@@ -4,7 +4,6 @@ extends State
 @export var chase_state: State
 
 func state_entered(parent: Entity) -> void:
-	print("Idling")
 	parent.move_anim_playback.travel("Idle")
 
 func process(delta: float, parent: Entity) -> State:

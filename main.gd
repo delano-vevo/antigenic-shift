@@ -220,7 +220,11 @@ func _on_day_night_controller_countdown_begin() -> void:
 ## Grab a new zombie from a zombie_spawner signal and add it to the game
 ## Zombies will be spawned just outside the bounds of the game camera to keep the player surrounded
 func _on_zombie_spawner_zombie_spawned(zombie: Enemy) -> void:
-	print("Spawning a zombie!")
+	# Check whether a zombie was spawned (or if the limit has been hit)
+	if (zombie == null):
+		return
+	# Proceed as usual
+	print("Spawning a zombie! " + str(get_tree().get_nodes_in_group("zombies").size()))
 	var viewport_rect = get_viewport().get_visible_rect().size
 	var valid_spawn: bool = false
 	var spawn_pos: Vector2

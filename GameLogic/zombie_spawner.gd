@@ -14,20 +14,25 @@ signal zombie_spawned(zombie: Enemy)
 @export var viral_strains: Array[ViralStrain]
 @export var spawn_checker: Area2D ## An Area2D that can be used to check the validity of a given spawn position by checking overlapping bodies
 
+## Gameplay variables
+@export var max_zombies: int = 40 ## Starting value - increases as the difficulty ramps up
+
 ## Spawns a zombie from a provided ViralStrain
-## Returns a reference to the spawned zombie
+## Returns a reference to the spawned zombie (or null, if the maximum has been hit
 func spawn_zombie(viral_strain: ViralStrain) -> Enemy:
-	var new_zombie = viral_strain.spawn_zombie()
-	zombie_spawned.emit(new_zombie)
-	return new_zombie
+	if (get_tree().get_nodes_in_group("zombies").size() < max_zombies):
+		var new_zombie = viral_strain.spawn_zombie()
+		zombie_spawned.emit(new_zombie)
+		return new_zombie
+	else:
+		return null
 
 ## Spawns a zombie from a specific ViralStrain at a provided index
 ## Default - will just spawn using the first Strain in the array
 ## Useful for spawning from a randomized strain
 ## Returns a reference to the spawned zombie
 func spawn_zombie_index(strain_idx: int = 0) -> Enemy:
-	var new_zombie = viral_strains[strain_idx].spawn_zombie()
-	zombie_spawned.emit(new_zombie)
+	var new_zombie = spawn_zombie(viral_strains[strain_idx])
 	return new_zombie
 
 ## Takes two random strains and combines them into a new one; useful for calling

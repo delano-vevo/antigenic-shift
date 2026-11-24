@@ -121,6 +121,7 @@ _data = {
 }
 
 [node name="Gunner" type="CharacterBody2D" unique_id=1909941820 node_paths=PackedStringArray("gun_sprite", "body_sprite", "shoot_ray", "laser_line", "ray_end", "shoot_cooldown_timer", "reload_timer", "muzzle_flash", "flash_timer", "animation_player", "state_machine") groups=["player"]]
+collision_layer = 17
 collision_mask = 3
 script = ExtResource("1_wshob")
 gunshot_tscn = ExtResource("2_32mri")
